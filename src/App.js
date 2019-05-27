@@ -1,5 +1,7 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 import {
   createMaterialTopTabNavigator,
   createAppContainer
@@ -8,6 +10,7 @@ import {
 import * as screens from "./screens";
 import Header from "./components/Header";
 import SearchBox from "./components/SearchBox";
+import reducers from "./reducers";
 //create the navigator object
 const AppNavigator = createMaterialTopTabNavigator(
   {
@@ -39,12 +42,19 @@ const AppContainer = createAppContainer(AppNavigator);
 class App extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <Header height={60}>
-          <SearchBox placeholder="Search Transactions ..." />
-        </Header>
-        <AppContainer />
-      </View>
+      <Provider
+        store={createStore(
+          reducers,
+          {},
+          window.__REDUX_DEVTOOLS_EXTENSION__ &&
+            window.__REDUX_DEVTOOLS_EXTENSION__()
+        )}
+      >
+        <View style={{ flex: 1 }}>
+          <Header height={60} />
+          <AppContainer />
+        </View>
+      </Provider>
     );
   }
 }
