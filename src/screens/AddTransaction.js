@@ -3,9 +3,43 @@ import { View, Text } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
+import {
+  createMaterialTopTabNavigator,
+  createAppContainer
+} from "react-navigation";
 
 import { currentTabChanged } from "../actions";
 import * as names from "../names";
+import AddMoneyTab from "./AddMoneyTab";
+import AddPurchaseTab from "./AddPurchaseTab";
+
+const PurchaseNavigator = createMaterialTopTabNavigator(
+  {
+    AddPurchase: AddPurchaseTab,
+    AddMoney: AddMoneyTab
+  },
+  {
+    initialRouteName: "AddPurchase",
+    tabBarPosition: "top",
+    tabBarOptions: {
+      showLabel: true,
+      activeTintColor: "black",
+      inactiveTintColor: "gray",
+      showIcon: false,
+      labelStyle: {
+        fontSize: 12,
+        fontFamily: "sans-serif-light",
+        fontWeight: "600",
+        padding: 5
+      },
+
+      style: {
+        backgroundColor: "#fff"
+      }
+    }
+  }
+);
+const PurchaseContainer = createAppContainer(PurchaseNavigator);
 
 class AddTransactions extends React.Component {
   static navigationOptions = {
@@ -30,11 +64,7 @@ class AddTransactions extends React.Component {
   }
 
   render() {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text style={{ fontSize: 36 }}>AddTransactions</Text>
-      </View>
-    );
+    return <PurchaseContainer />;
   }
 }
 

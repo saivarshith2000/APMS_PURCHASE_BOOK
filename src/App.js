@@ -9,7 +9,6 @@ import {
 
 import * as screens from "./screens";
 import Header from "./components/Header";
-import SearchBox from "./components/SearchBox";
 import reducers from "./reducers";
 //create the navigator object
 const AppNavigator = createMaterialTopTabNavigator(
