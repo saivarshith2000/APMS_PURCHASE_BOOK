@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
 
-import { currentTabChanged, getDataFromDB } from "../actions";
+import { currentTabChanged, getDataFromDB, setSelectedItem } from "../actions";
 import * as names from "../names";
 import TransactionList from "../components/TransactionList";
 
@@ -19,7 +19,7 @@ class HomeScreen extends React.Component {
   componentDidMount() {
     // change the currentTab name when the user comes to this tab
     const { navigation } = this.props;
-    this.focusListener = navigation.addListener("didFocus", () => {
+    this.focusListener = navigation.addListener("willFocus", () => {
       this.props.currentTabChanged(names.HOME);
       // get the data from the database
       if (!this.props.transactions.dataObtained) {
@@ -38,6 +38,7 @@ class HomeScreen extends React.Component {
         <TransactionList
           list={this.props.transactions.list}
           navigator={this.props.navigation}
+          setSelectedItem={this.props.setSelectedItem}
         />
       </View>
     );
@@ -53,6 +54,6 @@ const mapStateToProps = state => {
 export default withNavigation(
   connect(
     mapStateToProps,
-    { currentTabChanged, getDataFromDB }
+    { currentTabChanged, getDataFromDB, setSelectedItem }
   )(HomeScreen)
 );

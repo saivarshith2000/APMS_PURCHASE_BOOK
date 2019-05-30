@@ -18,7 +18,7 @@ class Accounts extends React.Component {
   componentDidMount() {
     // change the currentTab name when the user comes to this tab
     const { navigation } = this.props;
-    this.focusListener = navigation.addListener("didFocus", () => {
+    this.focusListener = navigation.addListener("willFocus", () => {
       this.props.currentTabChanged(names.ACCOUNTS);
     });
   }

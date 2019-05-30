@@ -1,5 +1,4 @@
 import React from "react";
-import { View, Text } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
@@ -52,7 +51,7 @@ class AddTransactions extends React.Component {
   componentDidMount() {
     // change the currentTab name when the user comes to this tab
     const { navigation } = this.props;
-    this.focusListener = navigation.addListener("didFocus", () => {
+    this.focusListener = navigation.addListener("willFocus", () => {
       this.props.currentTabChanged(names.NEW);
     });
     // complete the database operation and get the data for the list

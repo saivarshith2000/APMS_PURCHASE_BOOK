@@ -25,6 +25,7 @@ class SearchBox extends Component {
           placeholder={this.props.placeholder}
           onChangeText={text => this.onTextChange(text)}
           value={this.state.text}
+          multiline={false}
         />
       </View>
     );

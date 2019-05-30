@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
-import { createStore } from "redux";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import {
   createMaterialTopTabNavigator,
   createAppContainer
@@ -9,7 +9,7 @@ import {
 
 import * as screens from "./screens";
 import Header from "./components/Header";
-import reducers from "./reducers";
+import configureStore from "./reducers/configureStore";
 //create the navigator object
 const AppNavigator = createMaterialTopTabNavigator(
   {
@@ -31,7 +31,7 @@ const AppNavigator = createMaterialTopTabNavigator(
       },
 
       style: {
-        backgroundColor: "#689F38"
+        backgroundColor: "#00796B"
       }
     }
   }
@@ -40,19 +40,15 @@ const AppContainer = createAppContainer(AppNavigator);
 
 class App extends React.Component {
   render() {
+    const { store, persistor } = configureStore();
     return (
-      <Provider
-        store={createStore(
-          reducers,
-          {},
-          window.__REDUX_DEVTOOLS_EXTENSION__ &&
-            window.__REDUX_DEVTOOLS_EXTENSION__()
-        )}
-      >
-        <View style={{ flex: 1 }}>
-          <Header height={60} />
-          <AppContainer />
-        </View>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <View style={{ flex: 1 }}>
+            <Header height={60} />
+            <AppContainer />
+          </View>
+        </PersistGate>
       </Provider>
     );
   }

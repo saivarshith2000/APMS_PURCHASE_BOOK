@@ -1,0 +1,16 @@
+This file contains the object structures for transactions
+01. Purchase Transactions
+  a. title - non empty String (manual)
+  b. category - non empty String (manual with autocomplete input)
+  c. dateTime - non empty String (automatic if user leaves blank)
+  d. voucherNumber - non empty String (manual)
+  e. chequeNumber - any String  (manual)
+  f. opening - float (automatic)
+  g. closing - float (automatic)
+  h. remarks - any String (manual)
+  i. amount - float (manual)
+
+02. Money Transactions
+  a. amount - float (manual)
+  b. dateTime - non empty String (automatic if user leaves blank)
+  c. remarks - any String (manual)

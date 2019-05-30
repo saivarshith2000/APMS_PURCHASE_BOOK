@@ -1,25 +1,20 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { connect } from "react-redux";
 
-class AddMoney extends Component {
+import { addNewTransaction } from "../actions";
+import AddMoneyForm from "../components/AddMoneyForm";
+
+class AddMoneyTab extends Component {
   static navigationOptions = {
-    tabBarLabel: "Add Money"
+    tabBarLabel: "Add Money",
+    tabBarVisible: false
   };
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Text>AddMoney</Text>
-      </View>
-    );
+    return <AddMoneyForm addNewTransaction={this.props.addNewTransaction} />;
   }
 }
-export default AddMoney;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
+export default connect(
+  null,
+  { addNewTransaction }
+)(AddMoneyTab);

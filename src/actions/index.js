@@ -20,3 +20,32 @@ export const getDataFromDB = () => {
     }
   };
 };
+
+export const addNewTransaction = transaction => {
+  // the transaction object obtained must be the same as the db transaction object
+  return {
+    type: types.ADD_NEW_TRANSACTION,
+    payload: {
+      transaction
+    }
+  };
+};
+
+export const addNewCategory = category => {
+  // add a category to the categoryList
+  return {
+    type: types.ADD_NEW_CATEGORY,
+    payload: {
+      category
+    }
+  };
+};
+
+export const setSelectedItem = title => {
+  return {
+    type: types.SET_SELECTED_ITEM,
+    payload: {
+      title
+    }
+  };
+};

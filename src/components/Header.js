@@ -31,14 +31,7 @@ class Header extends React.Component {
 
   render() {
     return (
-      <ElevatedView
-        elevation={this.props.currentTab === names.HOME ? 10 : 5}
-        style={
-          this.props.currentTab === names.HOME
-            ? { ...styles.container, height: 60 }
-            : { ...styles.container, height: 50 }
-        }
-      >
+      <ElevatedView elevation={10} style={styles.container}>
         {this.renderHeader()}
       </ElevatedView>
     );
@@ -57,7 +50,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    height: 50
+    height: 60
   },
   TextHeaderStyle: {
     alignItems: "center",

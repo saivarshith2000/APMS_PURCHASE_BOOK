@@ -1,25 +1,29 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { connect } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
+import { addNewTransaction, addNewCategory } from "../actions";
+import AddPurchaseForm from "../components/AddPurchaseForm";
 
 class AddPurchaseTab extends Component {
   static navigationOptions = {
-    tabBarLabel: "Add Purchase"
+    tabBarLabel: "Add Purchase",
+    tabBarVisible: false
   };
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>AddPurchaseTab</Text>
-      </View>
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+        <AddPurchaseForm
+          addNewTransaction={this.props.addNewTransaction}
+          addNewCategory={this.props.addNewCategory}
+        />
+      </KeyboardAwareScrollView>
     );
   }
 }
-export default AddPurchaseTab;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
+export default connect(
+  null,
+  { addNewTransaction, addNewCategory }
+)(AddPurchaseTab);
