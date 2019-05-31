@@ -1,13 +1,22 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
+import ElevatedView from "react-native-elevated-view";
 
 import { currentTabChanged } from "../actions";
 import * as names from "../names";
+import {
+  TextInput,
+  TouchableNativeFeedback
+} from "react-native-gesture-handler";
 
 class Accounts extends React.Component {
+  state = {
+    text: ""
+  };
+
   static navigationOptions = {
     tabBarLabel: "Accounts",
     tabBarIcon: ({ tintColor }) => (
@@ -27,10 +36,23 @@ class Accounts extends React.Component {
     this.focusListener.remove();
   }
 
+  onChangeText = () => {
+    this.setState({ text });
+  };
+
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text style={{ fontSize: 36 }}>Accounts</Text>
+      <View style={styles.containerStyle}>
+        <ElevatedView elevation={10} style={styles.formContainer}>
+          <TextInput
+            style={styles.formInputStyle}
+            onChangeText={text => this.onChangeText(text)}
+            placeholder="Add Account"
+          />
+          <TouchableNativeFeedback style={styles.ButtonContainerStyle}>
+            <Text style={styles.ButtonTextStyle}>Add</Text>
+          </TouchableNativeFeedback>
+        </ElevatedView>
       </View>
     );
   }
@@ -42,3 +64,40 @@ export default withNavigation(
     { currentTabChanged }
   )(Accounts)
 );
+
+const styles = StyleSheet.create({
+  containerStyle: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  formContainer: {
+    flexDirection: "row",
+    padding: 10,
+    margin: 10,
+    borderRadius: 10
+  },
+  formInputStyle: {
+    flex: 1,
+    fontSize: 20,
+    marginHorizontal: 20,
+    marginVertical: 10,
+    borderBottomWidth: 1,
+    padding: 5,
+    borderColor: "#000",
+    borderRadius: 7
+  },
+  ButtonContainerStyle: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 20,
+    borderColor: "green",
+    borderWidth: 1,
+    borderRadius: 10
+  },
+  ButtonTextStyle: {
+    fontSize: 20,
+    color: "green"
+  }
+});
