@@ -5,10 +5,12 @@ import currentTabReducer from "./currentTabReducer.js";
 import transactionReducer from "./transactionsReducer";
 import CategoryReducer from "./CategoryReducer";
 import SelectedItemReducer from "./SelectedItemReduce";
+import AccountListReducer from "./AccountListReducer";
 
 export default combineReducers({
   currentTab: currentTabReducer,
   transactions: transactionReducer,
   categories: CategoryReducer,
-  selectedItem: SelectedItemReducer
+  selectedItem: SelectedItemReducer,
+  accountList: AccountListReducer
 });

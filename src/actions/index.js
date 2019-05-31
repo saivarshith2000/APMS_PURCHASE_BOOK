@@ -2,6 +2,7 @@
 
 import * as types from "../types";
 import { transactions } from "../DUMMY_DATA";
+import keyGen from "../../keyGenerator";
 
 export const currentTabChanged = newTab => {
   return {
@@ -46,6 +47,17 @@ export const setSelectedItem = title => {
     type: types.SET_SELECTED_ITEM,
     payload: {
       title
+    }
+  };
+};
+
+export const addNewAccount = accountName => {
+  return {
+    type: types.ADD_NEW_ACCOUNT,
+    payload: {
+      id: keyGen(),
+      accountName,
+      createdOn: new Date()
     }
   };
 };
