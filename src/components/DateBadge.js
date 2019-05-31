@@ -78,13 +78,13 @@ const styles = StyleSheet.create({
     marginVertical: 5
   },
   monthStyle: {
-    fontSize: 18,
-    marginHorizontal: 10,
-    marginVertical: 5
+    fontSize: 20,
+    marginHorizontal: 8,
+    marginVertical: 2
   },
   yearStyle: {
-    fontSize: 18,
-    marginRight: 10,
-    marginVertical: 5
+    fontSize: 20,
+    marginRight: 8,
+    marginVertical: 2
   }
 });

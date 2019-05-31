@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Text, TextInput, StyleSheet } from "react-native";
+import {
+  Text,
+  TextInput,
+  StyleSheet,
+  UIManager,
+  Platform,
+  LayoutAnimation
+} from "react-native";
 import { View } from "react-native-animatable";
 
 // this input field has validation
@@ -14,6 +21,19 @@ class MoneyInput extends Component {
     background: "white",
     color: "black"
   };
+
+  constructor() {
+    super();
+
+    if (Platform.OS === "android") {
+      UIManager.setLayoutAnimationEnabledExperimental &&
+        UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }
+
+  componentWillUpdate() {
+    LayoutAnimation.spring();
+  }
 
   onAmountChange = amount => {
     if (amount.search(/^[0-9]\d{0,9}(\.\d{1,3})?%?$/)) {
@@ -35,33 +55,57 @@ class MoneyInput extends Component {
     }
   };
 
-  render() {
-    return (
-      <View
-        ref={this.handleViewRef}
-        style={styles.container}
-        useNativeDriver={true}
-      >
+  renderError() {
+    if (this.props.error) {
+      return (
         <Text
           style={{
-            fontSize: 24,
-            color: "black"
+            fontSize: 18,
+            fontWeight: "600",
+            color: "#f46542",
+            alignSelf: "center",
+            padding: 0,
+            margin: 0
           }}
         >
-          Rs.{" "}
+          {this.props.error}
         </Text>
-        <TextInput
-          style={{
-            ...styles.textInputStyle,
-            backgroundColor: this.state.background,
-            color: this.state.color
-          }}
-          multiline={false}
-          placeholder={`Enter Amount in ${"\u20B9"}`}
-          keyboardType={"number-pad"}
-          onChangeText={amount => this.onAmountChange(amount)}
-          value={this.state.amount}
-        />
+      );
+    }
+    return null;
+  }
+
+  render() {
+    console.log(this.props.error);
+    return (
+      <View style={{ flexDirection: "column" }}>
+        <View
+          ref={this.handleViewRef}
+          style={styles.container}
+          useNativeDriver={true}
+        >
+          <Text
+            style={{
+              fontSize: 24,
+              color: "black"
+            }}
+          >
+            Rs.{" "}
+          </Text>
+          <TextInput
+            style={{
+              ...styles.textInputStyle,
+              backgroundColor: this.state.background,
+              color: this.state.color
+            }}
+            multiline={false}
+            placeholder={`Enter Amount in ${"\u20B9"}`}
+            keyboardType={"number-pad"}
+            onChangeText={amount => this.onAmountChange(amount)}
+            value={this.state.amount}
+          />
+        </View>
+        {this.renderError()}
       </View>
     );
   }

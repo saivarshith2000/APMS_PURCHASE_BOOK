@@ -1,3 +1,5 @@
+import keyGen from "../keyGenerator";
+
 /* Each Purchase Transaction contains 
 01. Amount
 02. Category
@@ -7,6 +9,7 @@
 06. Remarks
 07. Title
 08. Aaccount number 
+09. UUID
 */
 
 /* Each Money Transaction contains
@@ -14,6 +17,7 @@
 02. Account Number
 03. DateTime
 04. Remarks
+05. UUID
 */
 
 // But all transactions are represented by the same object
@@ -26,6 +30,7 @@ export const createMoneyTransaction = (
 ) => {
   return {
     type: "add_money",
+    id: keyGen(),
     amount,
     accountNumber,
     dateTime,
@@ -49,6 +54,7 @@ export const createPurchaseTransaction = (
 ) => {
   return {
     type: "add_purchase",
+    id: keyGen(),
     amount,
     accountNumber,
     dateTime,

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableNativeFeedback } from "react-native";
 import ElevatedView from "react-native-elevated-view";
+import Icon from "react-native-vector-icons/Ionicons";
 
 import { createPurchaseTransaction } from "../createTransaction";
 import MoneyInput from "./MoneyInput";
@@ -8,17 +9,23 @@ import DateInput from "./DateInput";
 import FormTextInput from "./FormTextInput";
 import AutoCompleteInput from "./AutoCompleteInput";
 
+const initialState = {
+  title: "",
+  amount: "",
+  remarks: "",
+  date: new Date(),
+  voucherNumber: "",
+  chequeNumber: "",
+  category: "",
+  // formValidation Props
+  titleError: "",
+  amountError: "",
+  voucherNumberError: "",
+  categoryError: ""
+};
+
 class AddPurchaseForm extends Component {
-  state = {
-    title: "",
-    amount: "",
-    remarks: "",
-    isPickerVisible: false,
-    date: new Date(),
-    voucherNumber: "",
-    chequeNumber: "",
-    category: ""
-  };
+  state = initialState;
 
   setAmount = amount => {
     this.setState({ amount });
@@ -48,8 +55,38 @@ class AddPurchaseForm extends Component {
     this.setState({ category });
   };
 
+  resetForm = () => {
+    this.setState(initialState);
+  };
+
   formValidate = () => {
-    return true;
+    const { title, category, voucherNumber, amount } = this.state;
+    let retVal = true;
+    if (title.length === 0) {
+      this.setState({ titleError: "Title can't be empty !!!" });
+      retVal = false;
+    } else {
+      this.setState({ titleError: "" });
+    }
+    if (amount.length === 0 || isNaN(amount)) {
+      this.setState({ amountError: "Amount must be a number !!!" });
+      retVal = false;
+    } else {
+      this.setState({ amountError: "" });
+    }
+    if (category.length === 0) {
+      this.setState({ categoryError: "Please select a category !!!" });
+      retVal = false;
+    } else {
+      this.setState({ categoryError: "" });
+    }
+    if (voucherNumber.length === 0) {
+      retVal = false;
+      this.setState({ voucherNumberError: "Voucher number can't be empty" });
+    } else {
+      this.setState({ voucherNumberError: "" });
+    }
+    return retVal;
   };
 
   render() {
@@ -58,33 +95,40 @@ class AddPurchaseForm extends Component {
         <ElevatedView elevation={10} style={styles.elevatedViewStyle}>
           <View style={styles.titleStyle}>
             <Text style={styles.formTitleStyle}>Add New Purchase</Text>
+            <Icon
+              name="ios-refresh"
+              size={24}
+              style={{ marginLeft: "auto", marginRight: 10 }}
+              onPress={this.resetForm}
+            />
           </View>
           <FormTextInput
             placeholder="Title *"
             onTextChange={this.onTitleChange}
-            pattern={/\S+/}
+            error={this.state.titleError}
           />
-          <MoneyInput setAmount={this.setAmount} />
+          <MoneyInput
+            setAmount={this.setAmount}
+            error={this.state.amountError}
+          />
           <DateInput setDate={this.setDate} />
           <AutoCompleteInput
             placeholder="Select Category *"
             onTextChange={this.onCategoryChange}
-            pattern={/\S+/}
+            error={this.state.categoryError}
           />
           <FormTextInput
             placeholder="Voucher Number *"
             onTextChange={this.onVoucherChange}
-            pattern={/\S+/}
+            error={this.state.voucherNumberError}
           />
           <FormTextInput
             placeholder="Cheque Number"
             onTextChange={this.onChequeChange}
-            pattern={/.*/}
           />
           <FormTextInput
             placeholder="Any Remarks ?"
             onTextChange={this.onRemarksChange}
-            pattern={/.*/}
           />
           <TouchableNativeFeedback
             onPress={() => {
@@ -137,7 +181,8 @@ const styles = StyleSheet.create({
   titleStyle: {
     margin: 10,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    flexDirection: "row"
   },
   elevatedViewStyle: {
     marginVertical: 25,
@@ -150,7 +195,8 @@ const styles = StyleSheet.create({
   formTitleStyle: {
     fontSize: 20,
     marginVertical: 5,
-    fontWeight: "600"
+    fontWeight: "600",
+    marginLeft: "auto"
   },
   textInputStyle: {
     fontSize: 20,

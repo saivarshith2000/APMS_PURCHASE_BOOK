@@ -1,12 +1,17 @@
 import React from "react";
-import { TextInput, StyleSheet } from "react-native";
+import {
+  TextInput,
+  Text,
+  StyleSheet,
+  Platform,
+  LayoutAnimation,
+  UIManager
+} from "react-native";
 import { View } from "react-native-animatable";
 
 // this represents a single textInput fiels in the form
 
 class FormTextInput extends React.Component {
-  handleViewRef = ref => (this.view = ref); // this variable holds the animation ref
-
   state = {
     text: "",
     hasError: false,
@@ -14,34 +19,22 @@ class FormTextInput extends React.Component {
     color: "black"
   };
 
-  handleTextChange = text => {
-    if (text.search(this.props.pattern)) {
-      // if there is an error
-      this.setState({
-        text,
-        color: "white",
-        background: "#f26877",
-        hasError: true
-      });
-      this.view.bounce(700);
-    } else {
-      this.setState({
-        text,
-        color: "black",
-        background: "white",
-        hasError: false
-      });
-      this.props.onTextChange(text);
+  constructor() {
+    super();
+
+    if (Platform.OS === "android") {
+      UIManager.setLayoutAnimationEnabledExperimental &&
+        UIManager.setLayoutAnimationEnabledExperimental(true);
     }
-  };
+  }
+
+  componentWillUpdate() {
+    LayoutAnimation.spring();
+  }
 
   render() {
     return (
-      <View
-        ref={this.handleViewRef}
-        style={styles.container}
-        useNativeDriver={true}
-      >
+      <View style={styles.container}>
         <TextInput
           style={{
             ...styles.textInputStyle,
@@ -49,9 +42,24 @@ class FormTextInput extends React.Component {
             backgroundColor: this.state.background
           }}
           placeholder={this.props.placeholder}
-          onChangeText={text => this.handleTextChange(text)}
+          onChangeText={text => {
+            this.props.onTextChange(text);
+            this.setState({ text });
+          }}
           value={this.state.value}
         />
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "600",
+            color: "#f46542",
+            alignSelf: "center",
+            padding: 0,
+            margin: 0
+          }}
+        >
+          {this.props.error}
+        </Text>
       </View>
     );
   }
@@ -66,7 +74,7 @@ const styles = StyleSheet.create({
   textInputStyle: {
     fontSize: 20,
     marginHorizontal: 20,
-    marginVertical: 20,
+    marginVertical: 10,
     borderBottomWidth: 1,
     padding: 5,
     borderColor: "#000",

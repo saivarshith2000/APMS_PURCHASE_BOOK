@@ -10,36 +10,37 @@ import { connect } from "react-redux";
 // the props contain a list of all current categories
 
 class AutoCompleteInput extends React.Component {
-  handleViewRef = ref => (this.view = ref); // this variable holds the animation ref
-
   state = {
     text: "",
-    hasError: false,
     background: "white",
     color: "black",
-    categories: this.props.categories
+    categories: this.props.categories,
+    hideResults: true
   };
   onPress = text => {
     this.setState({ text });
+    this.setState({ hideResults: true });
     this.props.onTextChange(text);
   };
 
   onTextChange = text => {
-    this.setState({ text, resultsHidden: false });
+    this.setState({ text });
+    if (this.state.hideResults && text.length > 0) {
+      this.setState({ hideResults: false });
+    } else {
+      this.setState({ hideResults: true });
+    }
     this.props.onTextChange(text);
   };
 
   render() {
     return (
-      <View
-        ref={this.handleViewRef}
-        style={styles.container}
-        useNativeDriver={true}
-      >
+      <View style={styles.container}>
         <AutoComplete
-          hideResults={!this.state.text}
+          hideResults={this.state.hideResults}
           data={this.state.categories}
           defaultValue={this.state.text}
+          keyExtractor={({ item }) => item}
           renderTextInput={() => (
             <TextInput
               style={{
@@ -76,6 +77,18 @@ class AutoCompleteInput extends React.Component {
             }
           }}
         />
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "600",
+            color: "#f46542",
+            alignSelf: "center",
+            padding: 0,
+            margin: 0
+          }}
+        >
+          {this.props.error}
+        </Text>
       </View>
     );
   }
@@ -97,7 +110,7 @@ const styles = StyleSheet.create({
   textInputStyle: {
     fontSize: 20,
     marginHorizontal: 20,
-    marginVertical: 20,
+    marginVertical: 5,
     borderBottomWidth: 1,
     padding: 5,
     borderColor: "#000",

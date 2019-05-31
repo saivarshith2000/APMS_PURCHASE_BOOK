@@ -4,7 +4,9 @@ import {
   LayoutAnimation,
   Text,
   StyleSheet,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
+  UIManager,
+  Platform
 } from "react-native";
 import ElevatedView from "react-native-elevated-view";
 import { connect } from "react-redux";
@@ -52,6 +54,19 @@ renderExtraInfo = ({
 };
 
 class PurchaseListItem extends React.Component {
+  state = {
+    selected: false
+  };
+
+  constructor() {
+    super();
+
+    if (Platform.OS === "android") {
+      UIManager.setLayoutAnimationEnabledExperimental &&
+        UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }
+
   componentWillUpdate() {
     LayoutAnimation.spring();
   }
@@ -71,7 +86,13 @@ class PurchaseListItem extends React.Component {
       <ElevatedView style={styles.container} elevation={5}>
         <TouchableNativeFeedback
           onPress={() => {
-            this.props.setSelectedItem(title);
+            if (this.state.selected) {
+              this.props.setSelectedItem("");
+              this.setState({ selected: false });
+            } else {
+              this.props.setSelectedItem(title);
+              this.setState({ selected: true });
+            }
           }}
         >
           <View>
@@ -88,7 +109,6 @@ class PurchaseListItem extends React.Component {
             {this.props.selectedItem === title
               ? renderExtraInfo(this.props.purchase)
               : null}
-            {/* {props.isSelected ? renderExtraInfo() : null} */}
           </View>
         </TouchableNativeFeedback>
       </ElevatedView>

@@ -7,6 +7,7 @@ import {
   TouchableNativeFeedback
 } from "react-native";
 import ElevatedView from "react-native-elevated-view";
+import Icon from "react-native-vector-icons/Ionicons";
 
 import { createMoneyTransaction } from "../createTransaction";
 import MoneyInput from "./MoneyInput";
@@ -15,9 +16,18 @@ import DateInput from "./DateInput";
 class AddMoneyForm extends Component {
   state = {
     amount: "",
+    amountError: "",
     remarks: "",
-    isPickerVisible: false,
     date: new Date()
+  };
+
+  resetForm = () => {
+    this.setState({
+      amount: "",
+      amountError: "",
+      remarks: "",
+      date: new Date()
+    });
   };
 
   setAmount = amount => {
@@ -33,7 +43,14 @@ class AddMoneyForm extends Component {
   };
 
   validateForm = () => {
-    return true;
+    let retVal = true;
+    if (this.state.amount.length === 0 || isNaN(this.state.amount)) {
+      this.setState({ amountError: "Amount must be a number" });
+      retVal = false;
+    } else {
+      this.setState({ amountError: "" });
+    }
+    return retVal;
   };
 
   render() {
@@ -44,12 +61,22 @@ class AddMoneyForm extends Component {
             style={{
               margin: 10,
               justifyContent: "center",
-              alignItems: "center"
+              alignItems: "center",
+              flexDirection: "row"
             }}
           >
             <Text style={styles.formTitleStyle}>Add Money</Text>
+            <Icon
+              name="ios-refresh"
+              size={24}
+              style={{ marginLeft: "auto", marginRight: 10 }}
+              onPress={this.resetForm}
+            />
           </View>
-          <MoneyInput setAmount={this.setAmount} />
+          <MoneyInput
+            setAmount={this.setAmount}
+            error={this.state.amountError}
+          />
           <DateInput setDate={this.setDate} />
           <View>
             <TextInput
@@ -98,7 +125,8 @@ const styles = StyleSheet.create({
   formTitleStyle: {
     fontSize: 24,
     marginVertical: 20,
-    fontWeight: "600"
+    fontWeight: "600",
+    marginLeft: "auto"
   },
   textInputStyle: {
     fontSize: 18,

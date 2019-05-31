@@ -24,15 +24,17 @@ class TransactionList extends React.Component {
         chequeNumber: "4567",
         opening: "1000",
         closing: "500",
-        title: "Books for Exam",
+        title: "Cardboard",
         category: "stationery",
-        type: "add_purchase"
+        type: "add_purchase",
+        id: 1
       },
       {
         amount: 800,
         type: "add_money",
         remarks: "Some remark lol",
-        dateTime: new Date()
+        dateTime: new Date(),
+        id: 2
       },
       {
         amount: 500,
@@ -44,13 +46,15 @@ class TransactionList extends React.Component {
         closing: "500",
         title: "Exam Tickers",
         category: "stationery",
-        type: "add_purchase"
+        type: "add_purchase",
+        id: 3
       },
       {
         amount: 800,
         type: "add_money",
         remarks: "Some remark lol",
-        dateTime: new Date()
+        dateTime: new Date(),
+        id: 4
       },
       {
         amount: 500,
@@ -62,13 +66,15 @@ class TransactionList extends React.Component {
         closing: "500",
         title: "New TextBooks",
         category: "stationery",
-        type: "add_purchase"
+        type: "add_purchase",
+        id: 5
       },
       {
         amount: 800,
         type: "add_money",
         remarks: "Some remark lol",
-        dateTime: new Date()
+        dateTime: new Date(),
+        id: 6
       },
       {
         amount: 500,
@@ -78,9 +84,10 @@ class TransactionList extends React.Component {
         chequeNumber: "4567",
         opening: "1000",
         closing: "500",
-        title: "Books for Exam",
+        title: "Books for 6th Class",
         category: "stationery",
-        type: "add_purchase"
+        type: "add_purchase",
+        id: 7
       },
       {
         amount: 500,
@@ -90,9 +97,10 @@ class TransactionList extends React.Component {
         chequeNumber: "4567",
         opening: "1000",
         closing: "500",
-        title: "Books for Exam",
+        title: "Books for 9th Class",
         category: "stationery",
-        type: "add_purchase"
+        type: "add_purchase",
+        id: 8
       }
     ]
   };
@@ -125,6 +133,7 @@ class TransactionList extends React.Component {
             contentContainerStyle={{ flexGrow: 1 }}
             showsVerticalScrollIndicator={false}
             data={this.state.dummy}
+            keyExtractor={item => item.id.toString()}
             renderItem={({ item }) => {
               if (item.type === "add_money") {
                 const { amount, remarks, dateTime } = item;

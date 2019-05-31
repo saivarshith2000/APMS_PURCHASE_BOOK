@@ -9,8 +9,10 @@ This file contains the object structures for transactions
   g. closing - float (automatic)
   h. remarks - any String (manual)
   i. amount - float (manual)
+  g: id - int (automatic)
 
 02. Money Transactions
   a. amount - float (manual)
   b. dateTime - non empty String (automatic if user leaves blank)
   c. remarks - any String (manual)
+  d. id - int (automatic)
