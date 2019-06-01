@@ -8,9 +8,11 @@ import SelectedItemReducer from "./SelectedItemReduce";
 import AccountListReducer from "./AccountListReducer";
 
 export default combineReducers({
-  currentTab: currentTabReducer,
+  // App Data Reducers
+  Accounts: AccountListReducer,
   transactions: transactionReducer,
+  // UI State Reducers
+  currentTab: currentTabReducer,
   categories: CategoryReducer,
-  selectedItem: SelectedItemReducer,
-  accountList: AccountListReducer
+  selectedItem: SelectedItemReducer
 });

@@ -1,22 +1,20 @@
 import * as types from "../types";
 
 const INITIAL_STATE = {
-  dataObtained: false,
-  list: []
+  count: 0,
+  ById: {},
+  AllIds: []
 };
 
-export default (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    case types.GET_DATA_FROM_DB: {
-      return {
-        dataObtained: true,
-        list: action.payload.transactions
-      };
-    }
-    case types.ADD_NEW_TRANSACTION: {
-      // add the new transaction to the list
-      return { ...state, list: [...state.list, action.payload.transaction] };
-    }
+export default (state = INITIAL_STATE, { type, payload }) => {
+  switch (type) {
+    case types.ADD_NEW_TRANSACTION:
+      let count = state.count++;
+      let id = payload.id;
+      let ById = { ...state.ById, id: payload };
+      let AllIds = [...state.AllIds, id];
+      return { id, count, ById, AllIds };
+    default:
+      return state;
   }
-  return state;
 };

@@ -26,9 +26,7 @@ export const addNewTransaction = transaction => {
   // the transaction object obtained must be the same as the db transaction object
   return {
     type: types.ADD_NEW_TRANSACTION,
-    payload: {
-      transaction
-    }
+    payload: transaction
   };
 };
 
@@ -55,9 +53,12 @@ export const addNewAccount = accountName => {
   return {
     type: types.ADD_NEW_ACCOUNT,
     payload: {
-      id: keyGen(),
-      accountName,
-      createdOn: new Date()
+      Account: {
+        id: keyGen(),
+        accountName,
+        createdOn: new Date(),
+        transactions: []
+      }
     }
   };
 };
