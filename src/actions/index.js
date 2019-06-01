@@ -39,10 +39,10 @@ export const setSelectedItem = title => {
   };
 };
 
-export const setCurrentAccount = id => {
+export const setCurrentAccount = ({ id, accountName }) => {
   return {
     type: types.SET_CURRENT_ACCOUNT,
-    payload: id
+    payload: { id, accountName }
   };
 };
 

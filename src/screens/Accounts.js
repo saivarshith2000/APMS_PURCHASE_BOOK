@@ -6,7 +6,8 @@ import {
   TouchableNativeFeedback,
   LayoutAnimation,
   StyleSheet,
-  FlatList
+  FlatList,
+  Dimensions
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { connect } from "react-redux";
@@ -66,6 +67,7 @@ class Accounts extends React.Component {
         }
       }
       this.props.addNewAccount(this.state.text);
+      this.props.setState({ text: "" });
       return;
     }
     this.setState({ error: "Account Name can't be empty" });
@@ -81,14 +83,15 @@ class Accounts extends React.Component {
     }
   };
 
-  onItemPress = () => {
-    console.log("Lol");
-  };
-
   render() {
     return (
       <View style={styles.containerStyle}>
-        <ElevatedView elevation={10} style={styles.formContainer}>
+        <ElevatedView
+          elevation={10}
+          style={{
+            ...styles.formContainer
+          }}
+        >
           <View style={{ flexDirection: "row", width: 370 }}>
             <TextInput
               style={styles.formInputStyle}
@@ -103,14 +106,17 @@ class Accounts extends React.Component {
           </View>
           {this.renderError()}
           <View style={styles.bannerStyle}>
-            <Text>Current Account</Text>
+            <Text style={styles.bannerTextStyle}>
+              {this.props.currentAccount
+                ? this.props.currentAccount.accountName
+                : "Select Current Account"}
+            </Text>
           </View>
           <View style={styles.listStyle}>
             <FlatList
+              style={{ height: 800 }}
               data={this.props.accounts}
-              renderItem={({ item }) => (
-                <AccountListItem account={item} onPress={this.onItemPress} />
-              )}
+              renderItem={({ item }) => <AccountListItem account={item} />}
               keyExtractor={item => {
                 item.id;
               }}
@@ -124,7 +130,8 @@ class Accounts extends React.Component {
 
 mapStateToProps = state => {
   return {
-    accounts: getAccountDetails(state)
+    accounts: getAccountDetails(state),
+    currentAccount: state.currentAccount
   };
 };
 
@@ -170,9 +177,22 @@ const styles = StyleSheet.create({
     color: "green"
   },
   errorStyle: {
-    fontSize: 20,
-    fontWeight: "600",
+    fontSize: 18,
     color: "tomato",
     marginLeft: 20
+  },
+  bannerStyle: {
+    marginVertical: 10,
+    borderWidth: 1,
+    borderColor: "tomato",
+    elevation: 10,
+    backgroundColor: "white",
+    padding: 5,
+    marginHorizontal: 0,
+    alignItems: "center"
+  },
+  bannerTextStyle: {
+    fontSize: 20,
+    fontWeight: "600"
   }
 });

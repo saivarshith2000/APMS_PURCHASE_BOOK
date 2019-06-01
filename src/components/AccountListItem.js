@@ -1,55 +1,90 @@
 import React from "react";
-import { View, Text, StyleSheet, CheckBox } from "react-native";
+import {
+  TouchableNativeFeedback,
+  View,
+  Text,
+  StyleSheet,
+  CheckBox
+} from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { connect } from "react-redux";
 
+import { setCurrentAccount } from "../actions/";
 import DateBadge from "./DateBadge";
 
 // props are account name, date created on and currentBalance
 
 class AccountListItem extends React.Component {
-  state = {
-    checked: false
-  };
-
   onPress = () => {
-    this.props.onPress();
-    this.setState({ checked: !this.state.checked });
+    this.props.setCurrentAccount(this.props.account);
   };
 
   render() {
-    console.log(this.props);
-    const { createdOn, balance, acccountName } = this.props.account;
+    const { createdOn, balance, accountName } = this.props.account;
     return (
-      <View style={styles.container}>
-        <DateBadge dateTime={new Date(createdOn)} />
-        <View style={styles.detailsStyle}>
-          <Text>{acccountName}</Text>
-          <Text>Rs. {balance}</Text>
+      <TouchableNativeFeedback>
+        <View style={styles.container}>
+          <View
+            style={{
+              alignItems: "flex-start",
+              marginRight: 5,
+              marginBottom: 5
+            }}
+          >
+            <DateBadge dateTime={new Date(createdOn)} />
+          </View>
+          <View style={styles.detailsStyle}>
+            <Text style={styles.nameStyle}>{accountName}</Text>
+            <Text style={styles.balanceStyle}>Balance Rs. {balance}</Text>
+          </View>
+          <View>
+            <CheckBox
+              checkedIcon={<Icon name="check-box" color="green" />}
+              uncheckedIcon={
+                <Icon name="check-box-outline-blank" color="black" />
+              }
+              value={this.props.account.id === this.props.currentAccount.id}
+              onValueChange={this.onPress}
+            />
+          </View>
         </View>
-        <View>
-          <CheckBox
-            checkedIcon={<Icon name="check-box" color="green" />}
-            uncheckedIcon={
-              <Icon name="check-box-outline-blank" color="black" />
-            }
-            value={this.state.checked}
-            onValueChange={this.onPress}
-          />
-        </View>
-      </View>
+      </TouchableNativeFeedback>
     );
   }
 }
-export default AccountListItem;
+
+const mapStateToProps = state => {
+  return {
+    currentAccount: state.currentAccount
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { setCurrentAccount }
+)(AccountListItem);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    borderBottomWidth: 1,
+    paddingVertical: 8
   },
   detailsStyle: {
+    flex: 1,
+    borderLeftWidth: 1,
+    paddingHorizontal: 8,
     flexDirection: "column"
+  },
+  nameStyle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "black"
+  },
+  balanceStyle: {
+    fontSize: 20
   }
 });
