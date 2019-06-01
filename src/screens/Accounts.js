@@ -1,20 +1,27 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableNativeFeedback,
+  LayoutAnimation,
+  StyleSheet,
+  FlatList
+} from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
 import ElevatedView from "react-native-elevated-view";
 
-import { currentTabChanged } from "../actions";
+import { currentTabChanged, addNewAccount } from "../actions";
+import { getAccountDetails } from "../stateHelpers";
+import AccountListItem from "../components/AccountListItem";
 import * as names from "../names";
-import {
-  TextInput,
-  TouchableNativeFeedback
-} from "react-native-gesture-handler";
 
 class Accounts extends React.Component {
   state = {
-    text: ""
+    text: "",
+    error: ""
   };
 
   static navigationOptions = {
@@ -32,36 +39,99 @@ class Accounts extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    LayoutAnimation.spring();
+  }
+
   componentWillUnmount() {
     this.focusListener.remove();
   }
 
-  onChangeText = () => {
+  onChangeText = text => {
+    if (text.length > 0) {
+      this.setState({ error: "" });
+    }
     this.setState({ text });
+  };
+
+  onPress = () => {
+    if (this.state.text.length > 0) {
+      // check if the name of new account already exists
+      for (let i = 0; i < this.props.accounts.length; i++) {
+        if (this.props.accounts[i].accountName === this.state.text) {
+          this.setState({
+            error: "An account with that name already exists !"
+          });
+          return;
+        }
+      }
+      this.props.addNewAccount(this.state.text);
+      return;
+    }
+    this.setState({ error: "Account Name can't be empty" });
+  };
+
+  renderError = () => {
+    if (this.state.error) {
+      return (
+        <View>
+          <Text style={styles.errorStyle}>{this.state.error}</Text>
+        </View>
+      );
+    }
+  };
+
+  onItemPress = () => {
+    console.log("Lol");
   };
 
   render() {
     return (
       <View style={styles.containerStyle}>
         <ElevatedView elevation={10} style={styles.formContainer}>
-          <TextInput
-            style={styles.formInputStyle}
-            onChangeText={text => this.onChangeText(text)}
-            placeholder="Add Account"
-          />
-          <TouchableNativeFeedback style={styles.ButtonContainerStyle}>
-            <Text style={styles.ButtonTextStyle}>Add</Text>
-          </TouchableNativeFeedback>
+          <View style={{ flexDirection: "row", width: 370 }}>
+            <TextInput
+              style={styles.formInputStyle}
+              onChangeText={text => this.onChangeText(text)}
+              placeholder="Add Account"
+            />
+            <TouchableNativeFeedback onPress={this.onPress}>
+              <View style={styles.ButtonContainerStyle}>
+                <Text style={styles.ButtonTextStyle}>Add</Text>
+              </View>
+            </TouchableNativeFeedback>
+          </View>
+          {this.renderError()}
+          <View style={styles.bannerStyle}>
+            <Text>Current Account</Text>
+          </View>
+          <View style={styles.listStyle}>
+            <FlatList
+              data={this.props.accounts}
+              renderItem={({ item }) => (
+                <AccountListItem account={item} onPress={this.onItemPress} />
+              )}
+              keyExtractor={item => {
+                item.id;
+              }}
+            />
+          </View>
         </ElevatedView>
       </View>
     );
   }
 }
 
+mapStateToProps = state => {
+  return {
+    accounts: getAccountDetails(state)
+  };
+};
+
 export default withNavigation(
   connect(
-    null,
-    { currentTabChanged }
+    mapStateToProps,
+    { currentTabChanged, addNewAccount }
   )(Accounts)
 );
 
@@ -72,7 +142,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   formContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     padding: 10,
     margin: 10,
     borderRadius: 10
@@ -88,7 +158,6 @@ const styles = StyleSheet.create({
     borderRadius: 7
   },
   ButtonContainerStyle: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,
@@ -99,5 +168,11 @@ const styles = StyleSheet.create({
   ButtonTextStyle: {
     fontSize: 20,
     color: "green"
+  },
+  errorStyle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "tomato",
+    marginLeft: 20
   }
 });

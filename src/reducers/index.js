@@ -5,11 +5,11 @@ import currentTabReducer from "./currentTabReducer.js";
 import transactionReducer from "./transactionsReducer";
 import CategoryReducer from "./CategoryReducer";
 import SelectedItemReducer from "./SelectedItemReduce";
-import AccountListReducer from "./AccountListReducer";
+import AccountsReducer from "./AccountsReducer";
 
 export default combineReducers({
   // App Data Reducers
-  Accounts: AccountListReducer,
+  Accounts: AccountsReducer,
   transactions: transactionReducer,
   // UI State Reducers
   currentTab: currentTabReducer,
