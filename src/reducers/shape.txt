@@ -1,0 +1,24 @@
+This file describes the shape of the data for reference
+The data has two main objects
+01. Accounts
+02. Transactions
+
+Accounts -> number of accounts  (for reference)
+        |-> ById object (accounts are stored as key value pair)
+        |-> AllIds array (contains the ids of all the accounts)
+
+Transactions -> number of transactions  (for reference)
+            |-> ById object (accounts are stored as key value pair)
+            |-> AllIds Array (contains the ids of all transactions)
+
+// Each Account object contains 
+Account -> number of transactions in this account
+       |-> AccountId
+       |-> Account number
+       |-> TransactionIds (array of transaction ids)
+
+// UI state
+currentTab
+currentAccount,
+categories,
+selectedItem
