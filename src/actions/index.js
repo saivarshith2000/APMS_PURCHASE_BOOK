@@ -1,7 +1,6 @@
 // this file contains all the actions creators for now
 
 import * as types from "../types";
-import { transactions } from "../DUMMY_DATA";
 import keyGen from "../../keyGenerator";
 
 export const currentTabChanged = newTab => {
@@ -9,15 +8,6 @@ export const currentTabChanged = newTab => {
     type: types.CURRENT_TAB_CHANGED,
     payload: {
       newTab // name of the new currentTab
-    }
-  };
-};
-
-export const getDataFromDB = () => {
-  return {
-    type: types.GET_DATA_FROM_DB,
-    payload: {
-      transactions
     }
   };
 };
@@ -49,6 +39,13 @@ export const setSelectedItem = title => {
   };
 };
 
+export const setCurrentAccount = id => {
+  return {
+    type: types.SET_CURRENT_ACCOUNT,
+    payload: id
+  };
+};
+
 export const addNewAccount = accountName => {
   return {
     type: types.ADD_NEW_ACCOUNT,
@@ -57,7 +54,8 @@ export const addNewAccount = accountName => {
         id: keyGen(),
         accountName,
         createdOn: new Date(),
-        transactions: []
+        transactions: [],
+        balance: 0
       }
     }
   };

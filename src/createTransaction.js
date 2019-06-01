@@ -1,4 +1,5 @@
 import keyGen from "../keyGenerator";
+import * as types from "./types";
 
 /* Each Purchase Transaction contains 
 01. Amount
@@ -29,7 +30,7 @@ export const createMoneyTransaction = (
   remarks
 ) => {
   return {
-    type: "add_money",
+    type: types.ADD_MONEY,
     id: keyGen(),
     amount,
     accountNumber,
@@ -44,7 +45,7 @@ export const createMoneyTransaction = (
 
 export const createPurchaseTransaction = (
   amount,
-  accountNumber,
+  accountId,
   dateTime,
   remarks,
   chequeNumber,
@@ -53,10 +54,10 @@ export const createPurchaseTransaction = (
   title
 ) => {
   return {
-    type: "add_purchase",
+    type: types.ADD_PURCHASE,
     id: keyGen(),
     amount,
-    accountNumber,
+    accountId,
     dateTime,
     remarks,
     chequeNumber,
