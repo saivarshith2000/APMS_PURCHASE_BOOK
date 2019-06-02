@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import ElevatedView from "react-native-elevated-view";
 
 import DateBadge from "./DateBadge";
@@ -10,7 +10,13 @@ Props are amount, dateTime, remarks
 
 const MoneyListItem = props => {
   return (
-    <ElevatedView style={styles.container} elevation={5}>
+    <ElevatedView
+      style={{
+        ...styles.container,
+        width: (Dimensions.get("window").width * 10) / 11
+      }}
+      elevation={5}
+    >
       <View style={styles.mainContainer}>
         <View style={styles.dateStyle}>
           <DateBadge dateTime={new Date(props.dateTime)} />

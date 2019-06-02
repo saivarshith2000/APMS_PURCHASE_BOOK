@@ -4,7 +4,8 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
+  Dimensions
 } from "react-native";
 import ElevatedView from "react-native-elevated-view";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -56,9 +57,18 @@ class AddMoneyForm extends Component {
   };
 
   render() {
+    const { height, width } = Dimensions.get("window");
+
     return (
       <View style={styles.container}>
-        <ElevatedView elevation={10} style={styles.elevatedViewStyle}>
+        <ElevatedView
+          elevation={10}
+          style={{
+            ...styles.elevatedViewStyle,
+            minHeight: height / 3,
+            width: (width * 5) / 6
+          }}
+        >
           <View
             style={{
               margin: 10,
@@ -135,9 +145,7 @@ const styles = StyleSheet.create({
   elevatedViewStyle: {
     margin: 20,
     backgroundColor: "white",
-    borderRadius: 15,
-    minHeight: 300,
-    minWidth: 350
+    borderRadius: 15
   },
   formTitleStyle: {
     fontSize: 24,

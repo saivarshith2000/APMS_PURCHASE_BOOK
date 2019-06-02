@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableNativeFeedback } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableNativeFeedback,
+  Dimensions
+} from "react-native";
 import ElevatedView from "react-native-elevated-view";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
@@ -92,9 +98,17 @@ class AddPurchaseForm extends Component {
   };
 
   render() {
+    const { height, width } = Dimensions.get("window");
     return (
       <View style={styles.container}>
-        <ElevatedView elevation={10} style={styles.elevatedViewStyle}>
+        <ElevatedView
+          elevation={10}
+          style={{
+            ...styles.elevatedViewStyle,
+            minHeight: (height * 2) / 3,
+            width: (width * 8) / 9
+          }}
+        >
           <View style={styles.titleStyle}>
             <Text style={styles.formTitleStyle}>Add New Purchase</Text>
             <Icon

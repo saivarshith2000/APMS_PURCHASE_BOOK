@@ -79,7 +79,13 @@ class PurchaseListItem extends React.Component {
   render() {
     const { title, amount, dateTime, id } = this.props.purchase;
     return (
-      <ElevatedView style={styles.container} elevation={5}>
+      <ElevatedView
+        style={{
+          ...styles.container,
+          width: (Dimensions.get("window").width * 10) / 11
+        }}
+        elevation={5}
+      >
         <TouchableNativeFeedback
           onPress={() => {
             if (this.props.selectedItem === id) {
@@ -124,13 +130,11 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
-    alignItems: "stretch",
     padding: 5,
     borderRadius: 10,
     borderLeftWidth: 10,
     borderColor: "#FBC02D",
-    margin: 10,
-    width: 380
+    margin: 10
   },
   mainContainer: {
     flex: 1,
