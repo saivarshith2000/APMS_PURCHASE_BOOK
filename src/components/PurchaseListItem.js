@@ -73,7 +73,10 @@ class PurchaseListItem extends React.Component {
   }
 
   componentWillUpdate() {
-    LayoutAnimation.spring();
+    LayoutAnimation.spring(
+      1000,
+      (update = { type: "spring", springDamping: 0.8 })
+    );
   }
 
   render() {

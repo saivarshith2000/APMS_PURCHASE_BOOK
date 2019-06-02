@@ -104,7 +104,8 @@ export default connect(mapStateToProps)(AutoCompleteInput);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 5
+    marginHorizontal: 5,
+    marginTop: 10
   },
   textInputStyle: {
     fontSize: 20,

@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 20
+    marginHorizontal: 20,
+    marginVertical: 10
   },
   textInputStyle: {
     flex: 1,

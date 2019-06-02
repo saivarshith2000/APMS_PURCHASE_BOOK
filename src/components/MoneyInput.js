@@ -32,7 +32,10 @@ class MoneyInput extends Component {
   }
 
   componentWillUpdate() {
-    LayoutAnimation.spring();
+    LayoutAnimation.spring(
+      1000,
+      (update = { type: "spring", springDamping: 0.8 })
+    );
   }
 
   onAmountChange = amount => {
@@ -116,7 +119,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    marginHorizontal: 20
+    marginHorizontal: 20,
+    marginBottom: 5
   },
   textInputStyle: {
     flex: 1,
