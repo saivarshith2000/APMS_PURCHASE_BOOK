@@ -67,7 +67,7 @@ class Accounts extends React.Component {
         }
       }
       this.props.addNewAccount(this.state.text);
-      this.props.setState({ text: "" });
+      this.setState({ text: "" });
       return;
     }
     this.setState({ error: "Account Name can't be empty" });
@@ -117,9 +117,7 @@ class Accounts extends React.Component {
               style={{ height: 800 }}
               data={this.props.accounts}
               renderItem={({ item }) => <AccountListItem account={item} />}
-              keyExtractor={item => {
-                item.id;
-              }}
+              keyExtractor={item => item.id}
             />
           </View>
         </ElevatedView>

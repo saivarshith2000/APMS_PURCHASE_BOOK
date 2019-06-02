@@ -8,8 +8,10 @@ import {
 } from "react-native";
 import ElevatedView from "react-native-elevated-view";
 import Icon from "react-native-vector-icons/Ionicons";
+import { connect } from "react-redux";
 
 import { createMoneyTransaction } from "../createTransaction";
+import { addNewTransaction } from "../actions";
 import MoneyInput from "./MoneyInput";
 import DateInput from "./DateInput";
 
@@ -92,7 +94,12 @@ class AddMoneyForm extends Component {
                 // add to db if the form is verified
                 const { amount, remarks, date } = this.state;
                 this.props.addNewTransaction(
-                  createMoneyTransaction(amount, 1, date, remarks)
+                  createMoneyTransaction(
+                    amount,
+                    this.props.currentAccount.id,
+                    date,
+                    remarks
+                  )
                 );
               }
             }}
@@ -106,7 +113,17 @@ class AddMoneyForm extends Component {
     );
   }
 }
-export default AddMoneyForm;
+
+const mapStateToProps = state => {
+  return {
+    currentAccount: state.currentAccount
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { addNewTransaction }
+)(AddMoneyForm);
 
 const styles = StyleSheet.create({
   container: {

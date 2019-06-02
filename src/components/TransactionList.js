@@ -9,102 +9,11 @@ import {
 import Icon from "react-native-vector-icons/Ionicons";
 
 import * as names from "../names";
+import * as types from "../types";
 import MoneyListItem from "./MoneyListItem";
 import PurchaseListItem from "./PurchaseListItem";
 
 class TransactionList extends React.Component {
-  state = {
-    transactions: this.props.list,
-    dummy: [
-      {
-        amount: 500,
-        remarks: "Some Nice Remarks",
-        dateTime: new Date(),
-        voucherNumber: "21334",
-        chequeNumber: "4567",
-        opening: "1000",
-        closing: "500",
-        title: "Cardboard",
-        category: "stationery",
-        type: "add_purchase",
-        id: 1
-      },
-      {
-        amount: 800,
-        type: "add_money",
-        remarks: "Some remark lol",
-        dateTime: new Date(),
-        id: 2
-      },
-      {
-        amount: 500,
-        remarks: "This is also a Remarks",
-        dateTime: new Date(),
-        voucherNumber: "21334",
-        chequeNumber: "4567",
-        opening: "1000",
-        closing: "500",
-        title: "Exam Tickers",
-        category: "stationery",
-        type: "add_purchase",
-        id: 3
-      },
-      {
-        amount: 800,
-        type: "add_money",
-        remarks: "Some remark lol",
-        dateTime: new Date(),
-        id: 4
-      },
-      {
-        amount: 500,
-        remarks: "Some Remarks are bad too",
-        dateTime: new Date(),
-        voucherNumber: "21334",
-        chequeNumber: "4567",
-        opening: "1000",
-        closing: "500",
-        title: "New TextBooks",
-        category: "stationery",
-        type: "add_purchase",
-        id: 5
-      },
-      {
-        amount: 800,
-        type: "add_money",
-        remarks: "Some remark lol",
-        dateTime: new Date(),
-        id: 6
-      },
-      {
-        amount: 500,
-        remarks: "Some Useful Remarks",
-        dateTime: new Date(),
-        voucherNumber: "21334",
-        chequeNumber: "4567",
-        opening: "1000",
-        closing: "500",
-        title: "Books for 6th Class",
-        category: "stationery",
-        type: "add_purchase",
-        id: 7
-      },
-      {
-        amount: 500,
-        remarks: "Some Useful Remarks",
-        dateTime: new Date(),
-        voucherNumber: "21334",
-        chequeNumber: "4567",
-        opening: "1000",
-        closing: "500",
-        title: "Books for 9th Class",
-        category: "stationery",
-        type: "add_purchase",
-        id: 8
-      }
-    ]
-  };
-
   renderAddPurchaseMessage = navigator => {
     return (
       <TouchableNativeFeedback onPress={() => navigator.navigate(names.NEW)}>
@@ -122,8 +31,8 @@ class TransactionList extends React.Component {
 
   renderList() {
     if (
-      this.state.transactions == null ||
-      this.state.transactions.length == 0
+      this.props.transactions == null ||
+      this.props.transactions.length == 0
     ) {
       return this.renderAddPurchaseMessage(this.props.navigator);
     } else {
@@ -132,10 +41,10 @@ class TransactionList extends React.Component {
           <FlatList
             contentContainerStyle={{ flexGrow: 1 }}
             showsVerticalScrollIndicator={false}
-            data={this.state.dummy}
-            keyExtractor={item => item.id.toString()}
+            data={this.props.transactions}
+            keyExtractor={item => item.id}
             renderItem={({ item }) => {
-              if (item.type === "add_money") {
+              if (item.type === types.ADD_MONEY) {
                 const { amount, remarks, dateTime } = item;
                 return (
                   <MoneyListItem

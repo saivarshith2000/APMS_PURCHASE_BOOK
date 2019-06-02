@@ -22,9 +22,9 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       ById[payload.accountId].transactions.push(payload.id);
       // deduct/increase this amount from the account balance
       if (payload.type === types.ADD_MONEY) {
-        ById[payload.accountId].balance += payload.amount;
+        ById[payload.accountId].balance += parseFloat(payload.amount);
       } else if (payload.type === types.ADD_PURCHASE) {
-        ById[payload.accountId].balance -= payload.amount;
+        ById[payload.accountId].balance -= parseFloat(payload.amount);
       }
       return { ...state, ById };
 

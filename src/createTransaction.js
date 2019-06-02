@@ -25,7 +25,7 @@ import * as types from "./types";
 // cheq no, vouch no, category for money transactions
 export const createMoneyTransaction = (
   amount,
-  accountNumber,
+  accountId,
   dateTime,
   remarks
 ) => {
@@ -33,7 +33,7 @@ export const createMoneyTransaction = (
     type: types.ADD_MONEY,
     id: keyGen(),
     amount,
-    accountNumber,
+    accountId,
     dateTime,
     remarks,
     chequeNumber: "",
@@ -51,7 +51,8 @@ export const createPurchaseTransaction = (
   chequeNumber,
   voucherNumber,
   category,
-  title
+  title,
+  opening
 ) => {
   return {
     type: types.ADD_PURCHASE,
@@ -63,6 +64,8 @@ export const createPurchaseTransaction = (
     chequeNumber,
     voucherNumber,
     category,
-    title
+    title,
+    opening,
+    closing: opening - amount
   };
 };

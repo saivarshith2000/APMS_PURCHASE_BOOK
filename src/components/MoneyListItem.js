@@ -13,7 +13,7 @@ const MoneyListItem = props => {
     <ElevatedView style={styles.container} elevation={5}>
       <View style={styles.mainContainer}>
         <View style={styles.dateStyle}>
-          <DateBadge dateTime={props.dateTime} />
+          <DateBadge dateTime={new Date(props.dateTime)} />
         </View>
         <View style={styles.TextContainerStyle}>
           <Text style={styles.amountStyle}>Rs. {props.amount}</Text>

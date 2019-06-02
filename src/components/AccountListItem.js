@@ -11,11 +11,16 @@ import { connect } from "react-redux";
 
 import { setCurrentAccount } from "../actions/";
 import DateBadge from "./DateBadge";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 // props are account name, date created on and currentBalance
 
 class AccountListItem extends React.Component {
   onPress = () => {
+    if (this.props.currentAccount.id === this.props.account.id) {
+      this.props.setCurrentAccount({});
+      return ;
+    }
     this.props.setCurrentAccount(this.props.account);
   };
 
@@ -38,14 +43,15 @@ class AccountListItem extends React.Component {
             <Text style={styles.balanceStyle}>Balance Rs. {balance}</Text>
           </View>
           <View>
-            <CheckBox
-              checkedIcon={<Icon name="check-box" color="green" />}
-              uncheckedIcon={
-                <Icon name="check-box-outline-blank" color="black" />
-              }
-              value={this.props.account.id === this.props.currentAccount.id}
-              onValueChange={this.onPress}
-            />
+            <TouchableOpacity onPress={this.onPress}>
+              <CheckBox
+                checkedIcon={<Icon name="check-box" color="green" />}
+                uncheckedIcon={
+                  <Icon name="check-box-outline-blank" color="black" />
+                }
+                value={this.props.account.id === this.props.currentAccount.id}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </TouchableNativeFeedback>

@@ -76,7 +76,6 @@ class MoneyInput extends Component {
   }
 
   render() {
-    console.log(this.props.error);
     return (
       <View style={{ flexDirection: "column" }}>
         <View

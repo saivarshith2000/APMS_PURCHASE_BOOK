@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { addNewTransaction, addNewCategory } from "../actions";
@@ -14,16 +13,10 @@ class AddPurchaseTab extends Component {
   render() {
     return (
       <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
-        <AddPurchaseForm
-          addNewTransaction={this.props.addNewTransaction}
-          addNewCategory={this.props.addNewCategory}
-        />
+        <AddPurchaseForm />
       </KeyboardAwareScrollView>
     );
   }
 }
 
-export default connect(
-  null,
-  { addNewTransaction, addNewCategory }
-)(AddPurchaseTab);
+export default AddPurchaseTab;

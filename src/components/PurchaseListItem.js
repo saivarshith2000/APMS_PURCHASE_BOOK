@@ -30,8 +30,16 @@ renderExtraInfo = ({
   return (
     <View style={styles.optionalContainer}>
       <View style={styles.balanceRow}>
-        <Text style={{ flex: 1, fontSize: 18 }}>Rs. {opening}</Text>
-        <Text style={{ flex: 1, fontSize: 18 }}>Rs. {closing}</Text>
+        <Text
+          style={{ flex: 1, fontSize: 18, color: "green", fontWeight: "500" }}
+        >
+          Op : Rs. {opening}
+        </Text>
+        <Text
+          style={{ flex: 1, fontSize: 18, color: "tomato", fontWeight: "500" }}
+        >
+          Cl : Rs. {closing}
+        </Text>
       </View>
       <View style={styles.vouchersRow}>
         <Text style={{ flex: 1, fontSize: 16 }}>Voucher: {voucherNumber}</Text>
@@ -54,10 +62,6 @@ renderExtraInfo = ({
 };
 
 class PurchaseListItem extends React.Component {
-  state = {
-    selected: false
-  };
-
   constructor() {
     super();
 
@@ -72,33 +76,22 @@ class PurchaseListItem extends React.Component {
   }
 
   render() {
-    const {
-      title,
-      voucherNumber,
-      chequeNumber,
-      opening,
-      closing,
-      amount,
-      dateTime,
-      remarks
-    } = this.props.purchase;
+    const { title, amount, dateTime, id } = this.props.purchase;
     return (
       <ElevatedView style={styles.container} elevation={5}>
         <TouchableNativeFeedback
           onPress={() => {
-            if (this.state.selected) {
+            if (this.props.selectedItem === id) {
               this.props.setSelectedItem("");
-              this.setState({ selected: false });
-            } else {
-              this.props.setSelectedItem(title);
-              this.setState({ selected: true });
+              return;
             }
+            this.props.setSelectedItem(id);
           }}
         >
           <View>
             <View style={styles.mainContainer}>
               <View style={styles.dateStyle}>
-                <DateBadge dateTime={dateTime} />
+                <DateBadge dateTime={new Date(dateTime)} />
               </View>
               <View style={styles.TextContainerStyle}>
                 <Text style={styles.amountStyle}>Rs. {amount}</Text>
@@ -106,7 +99,7 @@ class PurchaseListItem extends React.Component {
               </View>
             </View>
             {/* The view Below is visible only when the item is pressed */}
-            {this.props.selectedItem === title
+            {this.props.selectedItem === id
               ? renderExtraInfo(this.props.purchase)
               : null}
           </View>

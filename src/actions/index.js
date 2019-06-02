@@ -30,19 +30,19 @@ export const addNewCategory = category => {
   };
 };
 
-export const setSelectedItem = title => {
+export const setSelectedItem = id => {
   return {
     type: types.SET_SELECTED_ITEM,
     payload: {
-      title
+      id
     }
   };
 };
 
-export const setCurrentAccount = ({ id, accountName }) => {
+export const setCurrentAccount = ({ id, accountName, balance }) => {
   return {
     type: types.SET_CURRENT_ACCOUNT,
-    payload: { id, accountName }
+    payload: { id, accountName, balance }
   };
 };
 

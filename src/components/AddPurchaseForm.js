@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableNativeFeedback } from "react-native";
 import ElevatedView from "react-native-elevated-view";
 import Icon from "react-native-vector-icons/Ionicons";
+import { connect } from "react-redux";
 
 import { createPurchaseTransaction } from "../createTransaction";
+import { addNewTransaction, addNewCategory } from "../actions";
 import MoneyInput from "./MoneyInput";
 import DateInput from "./DateInput";
 import FormTextInput from "./FormTextInput";
@@ -146,13 +148,14 @@ class AddPurchaseForm extends Component {
                 this.props.addNewTransaction(
                   createPurchaseTransaction(
                     amount,
-                    1,
+                    this.props.currentAccount.id,
                     date,
                     remarks,
                     chequeNumber,
                     voucherNumber,
                     category,
-                    title
+                    title,
+                    this.props.currentAccount.balance
                   )
                 );
                 // add this category to the CategoryList
@@ -169,7 +172,17 @@ class AddPurchaseForm extends Component {
     );
   }
 }
-export default AddPurchaseForm;
+
+const mapStateToProps = state => {
+  return {
+    currentAccount: state.currentAccount
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { addNewCategory, addNewTransaction }
+)(AddPurchaseForm);
 
 const styles = StyleSheet.create({
   container: {
