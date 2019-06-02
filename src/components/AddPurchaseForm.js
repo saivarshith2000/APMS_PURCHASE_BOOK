@@ -101,7 +101,9 @@ class AddPurchaseForm extends Component {
               name="ios-refresh"
               size={24}
               style={{ marginLeft: "auto", marginRight: 10 }}
-              onPress={this.resetForm}
+              onPress={() => {
+                this.resetForm();
+              }}
             />
           </View>
           <FormTextInput

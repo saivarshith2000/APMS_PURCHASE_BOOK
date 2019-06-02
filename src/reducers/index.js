@@ -7,6 +7,7 @@ import CategoryReducer from "./CategoryReducer";
 import SelectedItemReducer from "./SelectedItemReduce";
 import AccountsReducer from "./AccountsReducer";
 import CurrentAccountReducer from "./CurrentAccountReducer";
+import SearchTermReducer from "./SearchTermReducer";
 
 export default combineReducers({
   // App Data Reducers
@@ -16,5 +17,6 @@ export default combineReducers({
   currentTab: currentTabReducer,
   categories: CategoryReducer,
   selectedItem: SelectedItemReducer,
-  currentAccount: CurrentAccountReducer
+  currentAccount: CurrentAccountReducer,
+  searchTerm: SearchTermReducer
 });

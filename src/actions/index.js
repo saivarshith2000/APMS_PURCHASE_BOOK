@@ -46,6 +46,13 @@ export const setCurrentAccount = ({ id, accountName, balance }) => {
   };
 };
 
+export const setSearchTerm = text => {
+  return {
+    type: types.SET_SEARCH_TERM,
+    payload: text
+  };
+};
+
 export const addNewAccount = accountName => {
   return {
     type: types.ADD_NEW_ACCOUNT,

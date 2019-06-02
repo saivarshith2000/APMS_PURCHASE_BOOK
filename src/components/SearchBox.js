@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
+import { connect } from "react-redux";
+import { setSearchTerm } from "../actions";
+
 class SearchBox extends Component {
   state = {
     text: ""
@@ -9,6 +12,7 @@ class SearchBox extends Component {
 
   onTextChange = text => {
     this.setState({ text });
+    this.props.setSearchTerm(text);
   };
 
   render() {
@@ -31,7 +35,11 @@ class SearchBox extends Component {
     );
   }
 }
-export default SearchBox;
+
+export default connect(
+  null,
+  { setSearchTerm }
+)(SearchBox);
 
 const styles = StyleSheet.create({
   container: {

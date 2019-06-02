@@ -33,7 +33,14 @@ class HomeScreen extends React.Component {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <TransactionList
-          transactions={this.props.transactions}
+          transactions={this.props.transactions.filter(transaction => {
+            if (this.props.searchTerm) {
+              return transaction.title
+                .toLowerCase()
+                .includes(this.props.searchTerm.toLowerCase());
+            }
+            return true;
+          })}
           navigator={this.props.navigation}
           setSelectedItem={this.props.setSelectedItem}
         />
@@ -44,7 +51,8 @@ class HomeScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    transactions: getAllTransactions(state)
+    transactions: getAllTransactions(state),
+    searchTerm: state.searchTerm
   };
 };
 

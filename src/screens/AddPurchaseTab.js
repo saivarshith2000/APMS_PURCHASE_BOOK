@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { withNavigationFocus } from "react-navigation";
 
-import { addNewTransaction, addNewCategory } from "../actions";
 import AddPurchaseForm from "../components/AddPurchaseForm";
 
 class AddPurchaseTab extends Component {
+  state = {
+    shouldClear: false
+  };
+
   static navigationOptions = {
     tabBarLabel: "Add Purchase",
     tabBarVisible: false
@@ -19,4 +23,4 @@ class AddPurchaseTab extends Component {
   }
 }
 
-export default AddPurchaseTab;
+export default withNavigationFocus(AddPurchaseTab);

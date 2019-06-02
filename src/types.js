@@ -7,3 +7,4 @@ export const ADD_NEW_ACCOUNT = "ADD_NEW_ACCOUNT";
 export const SET_CURRENT_ACCOUNT = "SET_CURRENT_ACCOUNT";
 export const ADD_MONEY = "ADD_MONEY";
 export const ADD_PURCHASE = "ADD_PURCHASE";
+export const SET_SEARCH_TERM = "SET_SEARCH_TERM";
