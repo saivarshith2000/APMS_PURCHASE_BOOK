@@ -30,10 +30,7 @@ class TransactionList extends React.Component {
   };
 
   renderList() {
-    if (
-      this.props.transactions == null ||
-      this.props.transactions.length == 0
-    ) {
+    if (this.props.isListEmpty) {
       return this.renderAddPurchaseMessage(this.props.navigator);
     } else {
       return (

@@ -41,6 +41,7 @@ class HomeScreen extends React.Component {
             }
             return true;
           })}
+          isListEmpty={this.props.transactions.length === 0}
           navigator={this.props.navigation}
           setSelectedItem={this.props.setSelectedItem}
         />
