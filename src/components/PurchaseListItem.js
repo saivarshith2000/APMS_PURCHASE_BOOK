@@ -6,7 +6,8 @@ import {
   StyleSheet,
   TouchableNativeFeedback,
   UIManager,
-  Platform
+  Platform,
+  Dimensions
 } from "react-native";
 import ElevatedView from "react-native-elevated-view";
 import { connect } from "react-redux";
@@ -122,15 +123,14 @@ export default connect(
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: "column",
     alignItems: "stretch",
     padding: 5,
     borderRadius: 10,
     borderLeftWidth: 10,
     borderColor: "#FBC02D",
-    marginTop: 10,
-    minWidth: 390
+    margin: 10,
+    width: 380
   },
   mainContainer: {
     flex: 1,

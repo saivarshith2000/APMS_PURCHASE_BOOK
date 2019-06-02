@@ -114,7 +114,7 @@ class Accounts extends React.Component {
           </View>
           <View style={styles.listStyle}>
             <FlatList
-              style={{ height: 800 }}
+              showsVerticalScrollIndicator={false}
               data={this.props.accounts}
               renderItem={({ item }) => <AccountListItem account={item} />}
               keyExtractor={item => item.id}
@@ -144,7 +144,8 @@ const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    marginVertical: 10
   },
   formContainer: {
     flexDirection: "column",
@@ -192,5 +193,8 @@ const styles = StyleSheet.create({
   bannerTextStyle: {
     fontSize: 20,
     fontWeight: "600"
+  },
+  listStyle: {
+    flex: 1
   }
 });

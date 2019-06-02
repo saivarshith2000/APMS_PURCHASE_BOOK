@@ -28,12 +28,13 @@ export default MoneyListItem;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
+    alignItems: "stretch",
     padding: 5,
     borderRadius: 10,
     borderLeftWidth: 10,
     borderColor: "#B2DFDB",
-    marginTop: 10,
-    minWidth: 390
+    margin: 10,
+    width: 380
   },
   mainContainer: {
     flex: 1,
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
   },
   remarkStyle: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 16,
     paddingTop: 2
   }
 });

@@ -13,12 +13,12 @@ import configureStore from "./reducers/configureStore";
 //create the navigator object
 const AppNavigator = createMaterialTopTabNavigator(
   {
+    Accounts: screens.Accounts,
     Transactions: screens.HomeScreen,
-    New: screens.AddTransaction,
-    Accounts: screens.Accounts
+    New: screens.AddTransaction
   },
   {
-    initialRouteName: "Transactions",
+    initialRouteName: "Accounts",
     tabBarPosition: "bottom",
     tabBarOptions: {
       showLabel: false,

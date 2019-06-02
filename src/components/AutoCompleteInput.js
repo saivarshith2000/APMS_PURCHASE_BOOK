@@ -14,7 +14,6 @@ class AutoCompleteInput extends React.Component {
     text: "",
     background: "white",
     color: "black",
-    categories: this.props.categories,
     hideResults: true
   };
   onPress = text => {
@@ -38,7 +37,7 @@ class AutoCompleteInput extends React.Component {
       <View style={styles.container}>
         <AutoComplete
           hideResults={this.state.hideResults}
-          data={this.state.categories}
+          data={this.props.categories}
           defaultValue={this.state.text}
           keyExtractor={({ item }) => item}
           renderTextInput={() => (
