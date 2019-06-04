@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   TouchableNativeFeedback,
-  Dimensions
+  Dimensions,
+  ToastAndroid
 } from "react-native";
 import ElevatedView from "react-native-elevated-view";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -176,6 +177,10 @@ class AddPurchaseForm extends Component {
                 );
                 // add this category to the CategoryList
                 this.props.addNewCategory(category);
+                ToastAndroid.show(
+                  "Added purchase successfully !",
+                  ToastAndroid.SHORT
+                );
               }
             }}
           >

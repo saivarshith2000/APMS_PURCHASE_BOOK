@@ -5,7 +5,8 @@ import {
   TextInput,
   StyleSheet,
   TouchableNativeFeedback,
-  Dimensions
+  Dimensions,
+  ToastAndroid
 } from "react-native";
 import ElevatedView from "react-native-elevated-view";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -110,6 +111,10 @@ class AddMoneyForm extends Component {
                     date,
                     remarks
                   )
+                );
+                ToastAndroid.show(
+                  "Money added successfully !",
+                  ToastAndroid.SHORT
                 );
               }
             }}

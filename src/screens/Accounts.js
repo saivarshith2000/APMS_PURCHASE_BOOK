@@ -7,7 +7,7 @@ import {
   LayoutAnimation,
   StyleSheet,
   FlatList,
-  Dimensions
+  ToastAndroid
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { connect } from "react-redux";
@@ -67,6 +67,7 @@ class Accounts extends React.Component {
         }
       }
       this.props.addNewAccount(this.state.text);
+      ToastAndroid.show("Added account successfully !", ToastAndroid.SHORT);
       this.setState({ text: "" });
       return;
     }
@@ -85,7 +86,7 @@ class Accounts extends React.Component {
 
   render() {
     return (
-      <View style={styles.containerStyle}>
+      <View style={{ ...styles.containerStyle }}>
         <ElevatedView
           elevation={10}
           style={{
@@ -97,6 +98,7 @@ class Accounts extends React.Component {
               style={styles.formInputStyle}
               onChangeText={text => this.onChangeText(text)}
               placeholder="Add Account"
+              value={this.state.text}
             />
             <TouchableNativeFeedback onPress={this.onPress}>
               <View style={styles.ButtonContainerStyle}>
@@ -145,7 +147,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
-    marginVertical: 10
+    margin: 10
   },
   formContainer: {
     flexDirection: "column",

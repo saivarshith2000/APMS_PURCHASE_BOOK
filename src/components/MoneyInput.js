@@ -104,7 +104,7 @@ class MoneyInput extends Component {
             placeholder={`Enter Amount in ${"\u20B9"}`}
             keyboardType={"number-pad"}
             onChangeText={amount => this.onAmountChange(amount)}
-            value={this.state.amount}
+            value={this.props.amount}
           />
         </View>
         {this.renderError()}
