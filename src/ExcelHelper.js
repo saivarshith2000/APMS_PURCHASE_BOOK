@@ -75,14 +75,12 @@ export const writeExcelFile = (accountList, transactionList) => {
     // Append this worksheet to the workbook
     XLSX.utils.book_append_sheet(wb, ws, "All Transactions");
 
-    let DATA_COPY = new Array(DATA_ARRAY);
-    DATA_COPY.shift();
-    console.log(DATA_COPY);
-
+    let DATA_COPY = DATA_ARRAY;
+    DATA_COPY.splice(0, 1);
     // Now add a new sheet for every category
     for (let k = 0; k < categoriesInThisAccount.length; k++) {
       ws = XLSX.utils.aoa_to_sheet(
-        DATA_ARRAY.filter(data => {
+        DATA_COPY.filter(data => {
           return data[INDEX_OF_CATEGORY] === categoriesInThisAccount[k];
         })
       );
