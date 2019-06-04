@@ -7,7 +7,7 @@ import { withNavigation } from "react-navigation";
 import { currentTabChanged, setSelectedItem } from "../actions";
 import * as names from "../names";
 import TransactionList from "../components/TransactionList";
-import { getAllTransactions } from "../stateHelpers";
+import { getAllTransactionsOfThisAccount } from "../stateHelpers";
 
 class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -52,7 +52,7 @@ class HomeScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    transactions: getAllTransactions(state),
+    transactions: getAllTransactionsOfThisAccount(state),
     searchTerm: state.searchTerm
   };
 };

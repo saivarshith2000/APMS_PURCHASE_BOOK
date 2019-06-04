@@ -9,7 +9,7 @@ export const getAccountDetails = state => {
   );
 };
 
-export const getAllTransactions = state => {
+export const getAllTransactionsOfThisAccount = state => {
   // This functions returns a list of transactions of the currentAccount in the state
   const transactions = Array.from(
     Object.keys(state.transactions.ById),
@@ -18,4 +18,12 @@ export const getAllTransactions = state => {
   return transactions.filter(transaction => {
     return transaction.accountId === state.currentAccount.id;
   });
+};
+
+export const getAllTransactions = state => {
+  // this function returs all the transactions from the state
+  return (transactions = Array.from(
+    Object.keys(state.transactions.ById),
+    key => state.transactions.ById[key]
+  ));
 };

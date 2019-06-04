@@ -15,7 +15,8 @@ const AppNavigator = createMaterialTopTabNavigator(
   {
     Accounts: screens.Accounts,
     Transactions: screens.HomeScreen,
-    New: screens.AddTransaction
+    New: screens.AddTransaction,
+    Data: screens.Data
   },
   {
     initialRouteName: "Accounts",

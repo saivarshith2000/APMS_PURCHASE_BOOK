@@ -9,7 +9,6 @@ import {
 import ElevatedView from "react-native-elevated-view";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { createPurchaseTransaction } from "../createTransaction";
 import { addNewTransaction, addNewCategory } from "../actions";
@@ -101,97 +100,91 @@ class AddPurchaseForm extends Component {
   render() {
     const { height, width } = Dimensions.get("window");
     return (
-      <KeyboardAwareScrollView
-        showsVerticalScrollIndicator={false}
-        extraHeight={60}
-        contentContainerStyle={{ flex: 1 }}
-      >
-        <View style={styles.container}>
-          <ElevatedView
-            elevation={10}
-            style={{
-              ...styles.elevatedViewStyle,
-              minHeight: (height * 2) / 3,
-              width: (width * 8) / 9
-            }}
-          >
-            <View style={styles.titleStyle}>
-              <Text style={styles.formTitleStyle}>Add New Purchase</Text>
-              <Icon
-                name="ios-refresh"
-                size={24}
-                style={{ marginLeft: "auto", marginRight: 10 }}
-                onPress={() => {
-                  this.resetForm();
-                }}
-              />
-            </View>
-            <FormTextInput
-              placeholder="Title *"
-              onTextChange={this.onTitleChange}
-              error={this.state.titleError}
-            />
-            <MoneyInput
-              setAmount={this.setAmount}
-              error={this.state.amountError}
-            />
-            <DateInput setDate={this.setDate} />
-            <AutoCompleteInput
-              placeholder="Select Category *"
-              onTextChange={this.onCategoryChange}
-              error={this.state.categoryError}
-            />
-            <FormTextInput
-              placeholder="Voucher Number *"
-              onTextChange={this.onVoucherChange}
-              error={this.state.voucherNumberError}
-            />
-            <FormTextInput
-              placeholder="Cheque Number"
-              onTextChange={this.onChequeChange}
-            />
-            <FormTextInput
-              placeholder="Any Remarks ?"
-              onTextChange={this.onRemarksChange}
-            />
-            <TouchableNativeFeedback
+      <View style={styles.container}>
+        <ElevatedView
+          elevation={10}
+          style={{
+            ...styles.elevatedViewStyle,
+            minHeight: (height * 2) / 3,
+            width: (width * 8) / 9
+          }}
+        >
+          <View style={styles.titleStyle}>
+            <Text style={styles.formTitleStyle}>Add New Purchase</Text>
+            <Icon
+              name="ios-refresh"
+              size={24}
+              style={{ marginLeft: "auto", marginRight: 10 }}
               onPress={() => {
-                if (this.formValidate()) {
-                  const {
+                this.resetForm();
+              }}
+            />
+          </View>
+          <FormTextInput
+            placeholder="Title *"
+            onTextChange={this.onTitleChange}
+            error={this.state.titleError}
+          />
+          <MoneyInput
+            setAmount={this.setAmount}
+            error={this.state.amountError}
+          />
+          <DateInput setDate={this.setDate} />
+          <AutoCompleteInput
+            placeholder="Select Category *"
+            onTextChange={this.onCategoryChange}
+            error={this.state.categoryError}
+          />
+          <FormTextInput
+            placeholder="Voucher Number *"
+            onTextChange={this.onVoucherChange}
+            error={this.state.voucherNumberError}
+          />
+          <FormTextInput
+            placeholder="Cheque Number"
+            onTextChange={this.onChequeChange}
+          />
+          <FormTextInput
+            placeholder="Any Remarks ?"
+            onTextChange={this.onRemarksChange}
+          />
+          <TouchableNativeFeedback
+            onPress={() => {
+              if (this.formValidate()) {
+                const {
+                  amount,
+                  chequeNumber,
+                  voucherNumber,
+                  title,
+                  date,
+                  remarks,
+                  category
+                } = this.state;
+                // add a new Transaction to the list
+                this.props.addNewTransaction(
+                  createPurchaseTransaction(
                     amount,
-                    chequeNumber,
-                    voucherNumber,
-                    title,
+                    this.props.currentAccount.id,
                     date,
                     remarks,
-                    category
-                  } = this.state;
-                  // add a new Transaction to the list
-                  this.props.addNewTransaction(
-                    createPurchaseTransaction(
-                      amount,
-                      this.props.currentAccount.id,
-                      date,
-                      remarks,
-                      chequeNumber,
-                      voucherNumber,
-                      category,
-                      title,
-                      this.props.currentAccount.balance
-                    )
-                  );
-                  // add this category to the CategoryList
-                  this.props.addNewCategory(category);
-                }
-              }}
-            >
-              <View style={styles.buttonStyle}>
-                <Text style={styles.buttonTextStyle}>Add</Text>
-              </View>
-            </TouchableNativeFeedback>
-          </ElevatedView>
-        </View>
-      </KeyboardAwareScrollView>
+                    chequeNumber,
+                    voucherNumber,
+                    category,
+                    title,
+                    this.props.currentAccount.balance
+                  )
+                );
+                // add this category to the CategoryList
+                this.props.addNewCategory(category);
+              }
+            }}
+          >
+            <View style={styles.buttonStyle}>
+              <Text style={styles.buttonTextStyle}>Add</Text>
+            </View>
+          </TouchableNativeFeedback>
+        </ElevatedView>
+      </View>
     );
   }
 }

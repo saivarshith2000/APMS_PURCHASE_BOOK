@@ -63,7 +63,7 @@ export const createPurchaseTransaction = (
     remarks,
     chequeNumber,
     voucherNumber,
-    category,
+    category: category.toUpperCase(),
     title,
     opening,
     closing: opening - amount
