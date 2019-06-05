@@ -18,7 +18,7 @@ const output = str => str.split("").map(x => x.charCodeAt(0));
 03. That's it
 */
 
-const EXCEL_HEADERS = [
+let EXCEL_HEADERS = [
   "Serial No.",
   "Item",
   "Amount",
@@ -32,6 +32,7 @@ const EXCEL_HEADERS = [
 ];
 
 const INDEX_OF_CATEGORY = 6;
+const INDEX_OF_DATE = 3;
 
 export const writeExcelFile = (accountList, transactionList) => {
   // check for error
@@ -61,13 +62,24 @@ export const writeExcelFile = (accountList, transactionList) => {
     ];
     // create an array of arrays for the excel sheet
     let DATA_ARRAY = [];
-    DATA_ARRAY.push(EXCEL_HEADERS);
 
     for (let j = 0; j < transactionsOfThisAccount.length; j++) {
       DATA_ARRAY.push(
         convertTransactionToArray(j + 1, transactionsOfThisAccount[j])
       );
     }
+    // sort this array by dates
+    DATA_ARRAY.sort((a, b) => {
+      return new Date(a[INDEX_OF_DATE]) - new Date(b[INDEX_OF_DATE]);
+    });
+
+    // create a copy of the DATA_ARRAY without the headers
+    let DATA_COPY = DATA_ARRAY;
+
+    // add date banners to the DATA_ARRAY
+    console.log(addMonthsBanner(DATA_ARRAY));
+    // add the headers to DATA_ARRAY
+    DATA_ARRAY = [EXCEL_HEADERS].concat(DATA_ARRAY);
     // create a new workbook
     const wb = XLSX.utils.book_new();
     // create a new worksheet that contains all transactions
@@ -75,15 +87,14 @@ export const writeExcelFile = (accountList, transactionList) => {
     // Append this worksheet to the workbook
     XLSX.utils.book_append_sheet(wb, ws, "All Transactions");
 
-    let DATA_COPY = DATA_ARRAY;
-    DATA_COPY.splice(0, 1);
     // Now add a new sheet for every category
     for (let k = 0; k < categoriesInThisAccount.length; k++) {
-      ws = XLSX.utils.aoa_to_sheet(
-        DATA_COPY.filter(data => {
-          return data[INDEX_OF_CATEGORY] === categoriesInThisAccount[k];
-        })
-      );
+      let DATA_OF_THIS_SHEET = DATA_COPY.filter(data => {
+        return data[INDEX_OF_CATEGORY] === categoriesInThisAccount[k];
+      });
+      DATA_OF_THIS_SHEET = [EXCEL_HEADERS].concat(DATA_OF_THIS_SHEET);
+      ws = XLSX.utils.aoa_to_sheet(DATA_OF_THIS_SHEET);
+      // Add date banners to the array
       XLSX.utils.book_append_sheet(wb, ws, categoriesInThisAccount[k]);
     }
 
@@ -151,4 +162,60 @@ const dateExtractor = date => {
   }
   const year = dateParam.getFullYear();
   return `${day}-${month}-${year}`;
+};
+
+// this functions add as a new row in the array that shows the month of purchases
+const addMonthsBanner = DATA_ARRAY => {
+  if (DATA_ARRAY == null || DATA_ARRAY.length < 2) {
+    return DATA_ARRAY;
+  }
+  let ARRAY_WITH_BANNER = [];
+  let currentRow = [];
+  let currentMonth = "";
+  let nextMonth = "";
+  ARRAY_WITH_BANNER.push(
+    monthText[1 + getDateObj(DATA_ARRAY[0][INDEX_OF_DATE]).getMonth()]
+  );
+  for (let i = 0; i < DATA_ARRAY.length - 1; i++) {
+    currentRow = DATA_ARRAY[i];
+    currentMonth = (
+      1 + getDateObj(currentRow[INDEX_OF_DATE]).getMonth()
+    ).toString();
+    nextMonth = (
+      1 + getDateObj(DATA_ARRAY[i + 1][INDEX_OF_DATE]).getMonth()
+    ).toString();
+    // dates are formatted as dd-mm-yyyy => month is at index 3,4
+    // Add a banner showing the month of the first month
+
+    if (currentMonth !== nextMonth) {
+      // push a new row containing next month
+      ARRAY_WITH_BANNER.push(monthText[nextMonth]);
+    }
+    // push the next row
+    ARRAY_WITH_BANNER.push(DATA_ARRAY[i + 1]);
+  }
+  return ARRAY_WITH_BANNER;
+};
+
+const getDateObj = dateString => {
+  if (dateString == null || dateString.length == 0) {
+    return null;
+  }
+  let dateParts = dateString.split("-");
+  return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+};
+
+const monthText = {
+  "1": "January",
+  "2": "February",
+  "3": "March",
+  "4": "April",
+  "5": "May",
+  "6": "June",
+  "7": "July",
+  "8": "August",
+  "9": "September",
+  "10": "October",
+  "11": "November",
+  "12": "December"
 };
