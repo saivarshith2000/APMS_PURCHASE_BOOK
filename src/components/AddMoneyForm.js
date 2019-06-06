@@ -22,7 +22,8 @@ class AddMoneyForm extends Component {
     amount: "",
     amountError: "",
     remarks: "",
-    date: new Date()
+    date: new Date(),
+    shouldClear: false
   };
 
   resetForm = () => {
@@ -30,7 +31,8 @@ class AddMoneyForm extends Component {
       amount: "",
       amountError: "",
       remarks: "",
-      date: new Date()
+      date: new Date(),
+      shouldClear: false
     });
   };
 
@@ -89,6 +91,8 @@ class AddMoneyForm extends Component {
           <MoneyInput
             setAmount={this.setAmount}
             error={this.state.amountError}
+            amount={this.state.amount}
+            shouldClear={this.state.shouldClear}
           />
           <DateInput setDate={this.setDate} />
           <View>
@@ -97,6 +101,7 @@ class AddMoneyForm extends Component {
               placeholder="Any Remarks ?"
               onChangeText={remarks => this.onRemarksChange(remarks)}
               value={this.state.remarks}
+              shouldClear={this.state.shouldClear}
             />
           </View>
           <TouchableNativeFeedback
@@ -116,6 +121,7 @@ class AddMoneyForm extends Component {
                   "Money added successfully !",
                   ToastAndroid.SHORT
                 );
+                this.resetForm();
               }
             }}
           >

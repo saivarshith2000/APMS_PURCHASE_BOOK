@@ -44,28 +44,31 @@ class DateInput extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <TouchableNativeFeedback
-          onPress={() => {
-            this.showPicker();
-          }}
-        >
+      <TouchableNativeFeedback
+        onPress={() => {
+          this.showPicker();
+        }}
+      >
+        <View style={styles.container}>
           <Icon name="calendar" size={32} style={{ paddingHorizontal: 5 }} />
           <DateTimePicker
             isVisible={this.state.isPickerVisible}
             onCancel={this.hidePicker}
             onConfirm={this.onDatePick}
           />
-        </TouchableNativeFeedback>
-        <TextInput
-          style={styles.textInputStyle}
-          multiline={false}
-          editable={false}
-          placeholder="Select Date"
-          keyboardType={"numbers-and-punctuation"}
-          value={this.state.dateText}
-        />
-      </View>
+
+          <TextInput
+            style={styles.textInputStyle}
+            multiline={false}
+            autoFocus={false}
+            pointerEvents="none"
+            placeholder="Select Date"
+            keyboardType={"numbers-and-punctuation"}
+            value={this.state.dateText}
+            onFocus={() => this.showPicker()}
+          />
+        </View>
+      </TouchableNativeFeedback>
     );
   }
 }

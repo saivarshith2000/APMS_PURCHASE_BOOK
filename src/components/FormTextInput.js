@@ -11,13 +11,15 @@ import { View } from "react-native-animatable";
 
 // this represents a single textInput fiels in the form
 
+const INITIAL_STATE = {
+  text: "",
+  hasError: false,
+  background: "white",
+  color: "black"
+};
+
 class FormTextInput extends React.Component {
-  state = {
-    text: "",
-    hasError: false,
-    background: "white",
-    color: "black"
-  };
+  state = INITIAL_STATE;
 
   constructor() {
     super();
@@ -25,6 +27,12 @@ class FormTextInput extends React.Component {
     if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental &&
         UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.shouldClear) {
+      this.setState(INITIAL_STATE);
     }
   }
 
@@ -49,7 +57,7 @@ class FormTextInput extends React.Component {
             this.props.onTextChange(text);
             this.setState({ text });
           }}
-          value={this.state.value}
+          value={this.props.value}
         />
         <Text
           style={{

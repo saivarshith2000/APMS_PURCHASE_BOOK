@@ -12,15 +12,17 @@ import { View } from "react-native-animatable";
 // this input field has validation
 // if the entered input is contains alphabets at any point it will show error
 
+const INITIAL_STATE = {
+  amount: "",
+  hasError: false,
+  background: "white",
+  color: "black"
+};
+
 class MoneyInput extends Component {
   handleViewRef = ref => (this.view = ref); // this variable holds the animation ref
 
-  state = {
-    amount: "",
-    hasError: false,
-    background: "white",
-    color: "black"
-  };
+  state = INITIAL_STATE;
 
   constructor() {
     super();
@@ -28,6 +30,13 @@ class MoneyInput extends Component {
     if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental &&
         UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.shouldClear) {
+      this.setState(INITIAL_STATE);
+      600;
     }
   }
 

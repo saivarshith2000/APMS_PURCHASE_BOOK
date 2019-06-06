@@ -125,10 +125,12 @@ class AddPurchaseForm extends Component {
             placeholder="Title *"
             onTextChange={this.onTitleChange}
             error={this.state.titleError}
+            value={this.state.title}
           />
           <MoneyInput
             setAmount={this.setAmount}
             error={this.state.amountError}
+            amount={this.state.amount}
           />
           <DateInput setDate={this.setDate} />
           <AutoCompleteInput
@@ -140,14 +142,17 @@ class AddPurchaseForm extends Component {
             placeholder="Voucher Number *"
             onTextChange={this.onVoucherChange}
             error={this.state.voucherNumberError}
+            value={this.state.voucherNumber}
           />
           <FormTextInput
             placeholder="Cheque Number"
             onTextChange={this.onChequeChange}
+            value={this.state.chequeNumber}
           />
           <FormTextInput
             placeholder="Any Remarks ?"
             onTextChange={this.onRemarksChange}
+            value={this.state.remarks}
           />
           <TouchableNativeFeedback
             onPress={() => {
@@ -181,6 +186,7 @@ class AddPurchaseForm extends Component {
                   "Added purchase successfully !",
                   ToastAndroid.SHORT
                 );
+                this.resetForm();
               }
             }}
           >
