@@ -5,3 +5,4 @@ export const NEW = "New";
 export const ACCOUNTS = "Accounts";
 export const ADD_MONEY = "Add Money";
 export const ADD_PURCHASE = "Add Purchase";
+export const DATA = "Generate Data";

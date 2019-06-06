@@ -10,8 +10,10 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import { connect } from "react-redux";
 
+import * as names from "../names";
 import { writeExcelFile } from "../ExcelHelper";
 import { getAccountDetails, getAllTransactions } from "../stateHelpers";
+import { currentTabChanged } from "../actions";
 
 class Data extends Component {
   static navigationOptions = {
@@ -24,6 +26,20 @@ class Data extends Component {
   state = {
     hasPermission: false
   };
+
+  componentDidMount() {
+    // change the currentTab name when the user comes to this tab
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener("willFocus", () => {
+      this.props.currentTabChanged(names.DATA);
+    });
+    // complete the database operation and get the data for the list
+    // for temp purposes, we are pulling data from a dummy file
+  }
+
+  componentWillUnmount() {
+    this.focusListener.remove();
+  }
 
   getPerms = async () => {
     try {
@@ -79,7 +95,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Data);
+export default connect(
+  mapStateToProps,
+  { currentTabChanged }
+)(Data);
 
 const styles = StyleSheet.create({
   container: {

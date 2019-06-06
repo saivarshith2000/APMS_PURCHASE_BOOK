@@ -26,7 +26,8 @@ renderExtraInfo = ({
   chequeNumber,
   opening,
   closing,
-  remarks
+  remarks,
+  accountNumber
 }) => {
   return (
     <View style={styles.optionalContainer}>
@@ -80,7 +81,7 @@ class PurchaseListItem extends React.Component {
   }
 
   render() {
-    const { title, amount, dateTime, id } = this.props.purchase;
+    const { title, amount, dateTime, id, category } = this.props.purchase;
     return (
       <ElevatedView
         style={{
@@ -104,7 +105,12 @@ class PurchaseListItem extends React.Component {
                 <DateBadge dateTime={new Date(dateTime)} />
               </View>
               <View style={styles.TextContainerStyle}>
-                <Text style={styles.amountStyle}>Rs. {amount}</Text>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.amountStyle}>Rs. {amount}</Text>
+                  <View style={styles.dateViewStyle}>
+                    <Text style={styles.categoryStyle}>{category}</Text>
+                  </View>
+                </View>
                 <Text style={styles.titleStyle}>{title}</Text>
               </View>
             </View>
@@ -188,5 +194,16 @@ const styles = StyleSheet.create({
     padding: 5,
     flex: 1,
     flexDirection: "row"
+  },
+  categoryStyle: {
+    color: "black",
+    fontSize: 14
+  },
+  dateViewStyle: {
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: "green",
+    padding: 5,
+    margin: 0
   }
 });

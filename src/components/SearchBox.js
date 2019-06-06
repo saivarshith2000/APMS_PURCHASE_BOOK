@@ -50,18 +50,20 @@ const styles = StyleSheet.create({
     borderColor: "#8BC34A",
     borderWidth: 2,
     borderRadius: 15,
-    margin: 10
+    marginTop: 10,
+    marginHorizontal: 10,
+    marginBottom: 5
   },
   iconStyle: {
     flex: 1,
     marginLeft: 15,
-    marginRight: 0
+    marginRight: 0,
+    padding: 5
   },
   textInputStyle: {
-    flex: 12,
+    flex: 14,
     height: 40,
     fontSize: 18,
-    marginHorizontal: 0,
-    padding: 0
+    margin: 5
   }
 });

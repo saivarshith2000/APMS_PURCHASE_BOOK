@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import ElevatedView from "react-native-elevated-view";
 import { connect } from "react-redux";
 
@@ -24,6 +24,9 @@ class Header extends React.Component {
       case names.NEW: {
         return <Text style={styles.TextHeaderStyle}>New Transaction</Text>;
       }
+      case names.DATA: {
+        return <Text style={styles.TextHeaderStyle}>Generated Data</Text>;
+      }
       default:
         return <Text>This is the default header, you shouldn't see this</Text>;
     }
@@ -33,6 +36,11 @@ class Header extends React.Component {
     return (
       <ElevatedView elevation={10} style={styles.container}>
         {this.renderHeader()}
+        <View style={styles.accountStyle}>
+          <Text style={{ fontSize: 18, fontWeight: "600" }}>
+            {this.props.accountName}
+          </Text>
+        </View>
       </ElevatedView>
     );
   }
@@ -40,7 +48,8 @@ class Header extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    currentTab: state.currentTab
+    currentTab: state.currentTab,
+    accountName: state.currentAccount.accountName
   };
 };
 
@@ -50,7 +59,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    height: 60
+    height: 90
   },
   TextHeaderStyle: {
     alignItems: "center",
@@ -59,5 +68,8 @@ const styles = StyleSheet.create({
     padding: 0,
     color: "black",
     fontFamily: "sans-serif-light"
+  },
+  accountStyle: {
+    padding: 5
   }
 });
