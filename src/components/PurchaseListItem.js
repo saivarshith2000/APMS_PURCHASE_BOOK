@@ -7,12 +7,14 @@ import {
   TouchableNativeFeedback,
   UIManager,
   Platform,
+  Alert,
   Dimensions
 } from "react-native";
 import ElevatedView from "react-native-elevated-view";
 import { connect } from "react-redux";
 
-import { setSelectedItem } from "../actions";
+import { persistor } from "../reducers/configureStore";
+import { setSelectedItem, deleteTransaction } from "../actions";
 import DateBadge from "./DateBadge";
 
 /*
@@ -26,8 +28,7 @@ renderExtraInfo = ({
   chequeNumber,
   opening,
   closing,
-  remarks,
-  accountNumber
+  remarks
 }) => {
   return (
     <View style={styles.optionalContainer}>
@@ -80,6 +81,38 @@ class PurchaseListItem extends React.Component {
     );
   }
 
+  onLongPress = () => {
+    // show a dialog asking if the user wants to delete this account
+    Alert.alert(
+      "Edit/Delete Transaction ?",
+      `Editing or Deleting is permanent and can't be undone. Are you sure ?`,
+      [
+        {
+          text: "cancel",
+          onPress: () => {}
+        },
+        {
+          text: "Delete",
+          onPress: () => {
+            // delete this account
+            this.props.deleteTransaction(this.props.purchase);
+            // immediately persist this state
+            persistor.flush();
+          }
+        },
+        {
+          text: "Edit",
+          onPress: () => {
+            // delete this account
+            console.log("edit");
+            // immediately persist this state
+            persistor.flush();
+          }
+        }
+      ]
+    );
+  };
+
   render() {
     const { title, amount, dateTime, id, category } = this.props.purchase;
     return (
@@ -91,6 +124,7 @@ class PurchaseListItem extends React.Component {
         elevation={5}
       >
         <TouchableNativeFeedback
+          onLongPress={this.onLongPress}
           onPress={() => {
             if (this.props.selectedItem === id) {
               this.props.setSelectedItem("");
@@ -133,7 +167,7 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { setSelectedItem }
+  { setSelectedItem, deleteTransaction }
 )(PurchaseListItem);
 
 const styles = StyleSheet.create({

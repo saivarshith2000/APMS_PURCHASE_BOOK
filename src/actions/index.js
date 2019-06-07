@@ -74,3 +74,10 @@ export const deleteAccount = account => {
     payload: account
   };
 };
+
+export const deleteTransaction = transaction => {
+  return {
+    type: types.DELETE_TRANSACTION,
+    payload: transaction
+  };
+};

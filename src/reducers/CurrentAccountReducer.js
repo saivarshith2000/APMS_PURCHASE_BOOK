@@ -15,7 +15,7 @@ export default (state = {}, { type, payload }) => {
             ? state.balance + parseFloat(payload.amount)
             : state.balance - parseFloat(payload.amount)
       };
-    case types.DELETE_ACCOUNT:
+    case types.DELETE_ACCOUNT: {
       if (Object.keys(state).length === 0 && state.constructor === state) {
         // checked for empty state === no current account present
         return state;
@@ -24,6 +24,7 @@ export default (state = {}, { type, payload }) => {
         return {};
       }
       return state;
+    }
   }
   return state;
 };

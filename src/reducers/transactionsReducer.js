@@ -8,7 +8,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
-    case types.ADD_NEW_TRANSACTION:
+    case types.ADD_NEW_TRANSACTION: {
       // check if a transaction with the same voucherNumber exists
       if (payload.type === types.ADD_PURCHASE) {
         if (checkIfVoucherExists(state.ById, payload.voucherNumber)) {
@@ -21,6 +21,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       ById[id] = payload;
       const AllIds = [...state.AllIds, id];
       return { count, ById, AllIds };
+    }
 
     case types.DELETE_ACCOUNT: {
       // delete all accounts with the accountId of the payload (deleted account)
@@ -36,6 +37,13 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       });
 
       return { ById, count, AllIds };
+    }
+    case types.DELETE_TRANSACTION: {
+      const AllIds = state.AllIds.filter(id => id !== payload.id);
+      let ById = state.ById;
+      delete ById[payload.id];
+      const count = state.count - 1;
+      return { count, ById, AllIds };
     }
     default:
       return state;
