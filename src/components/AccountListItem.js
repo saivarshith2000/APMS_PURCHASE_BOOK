@@ -4,12 +4,14 @@ import {
   View,
   Text,
   StyleSheet,
+  Alert,
   CheckBox
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { connect } from "react-redux";
 
-import { setCurrentAccount } from "../actions/";
+import { persistor } from "../reducers/configureStore";
+import { setCurrentAccount, deleteAccount } from "../actions/";
 import DateBadge from "./DateBadge";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -19,15 +21,40 @@ class AccountListItem extends React.Component {
   onPress = () => {
     if (this.props.currentAccount.id === this.props.account.id) {
       this.props.setCurrentAccount({});
-      return ;
+      return;
     }
     this.props.setCurrentAccount(this.props.account);
+  };
+
+  onLongPress = () => {
+    // show a dialog asking if the user wants to delete this account
+    Alert.alert(
+      "Delete Account ?",
+      `The account ${
+        this.props.account.accountName
+      } will be permanently deleted and it can not be undone ! Are you sure you want to delete ?`,
+      [
+        {
+          text: "confirm",
+          onPress: () => {
+            // delete this account
+            this.props.deleteAccount(this.props.account);
+            // immediately persist this state
+            persistor.flush();
+          }
+        },
+        {
+          text: "cancel",
+          onPress: () => {}
+        }
+      ]
+    );
   };
 
   render() {
     const { createdOn, balance, accountName } = this.props.account;
     return (
-      <TouchableNativeFeedback>
+      <TouchableNativeFeedback onLongPress={this.onLongPress}>
         <View style={styles.container}>
           <View
             style={{
@@ -67,7 +94,7 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { setCurrentAccount }
+  { setCurrentAccount, deleteAccount }
 )(AccountListItem);
 
 const styles = StyleSheet.create({

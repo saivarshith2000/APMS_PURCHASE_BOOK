@@ -1,23 +1,20 @@
 // this module creates a store that is persisted on the local storage
 import { createStore } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import FilesystemStorage from "redux-persist-filesystem-storage";
 
 import rootReducer from "./index"; // this is the normal non-persisted combineReducer
 
 const persistConfig = {
   key: "root",
-  storage
+  storage: FilesystemStorage
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-
-export default () => {
-  let store = createStore(
-    persistedReducer,
-    {},
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  );
-  let persistor = persistStore(store);
-  return { store, persistor };
-};
+export const store = createStore(
+  persistedReducer,
+  {},
+  window.__REDUX_DEVTOOLS_EXTENSION__ &&
+    window.__REDUX_DEVTOOLS_EXTENSION__({ latency: 0 })
+);
+export const persistor = persistStore(store);

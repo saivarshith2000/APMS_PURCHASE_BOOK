@@ -9,7 +9,7 @@ import {
 
 import * as screens from "./screens";
 import Header from "./components/Header";
-import configureStore from "./reducers/configureStore";
+import { store, persistor } from "./reducers/configureStore";
 //create the navigator object
 const AppNavigator = createMaterialTopTabNavigator(
   {
@@ -41,7 +41,6 @@ const AppContainer = createAppContainer(AppNavigator);
 
 class App extends React.Component {
   render() {
-    const { store, persistor } = configureStore();
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>

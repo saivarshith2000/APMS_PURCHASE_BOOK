@@ -67,3 +67,10 @@ export const addNewAccount = accountName => {
     }
   };
 };
+
+export const deleteAccount = account => {
+  return {
+    type: types.DELETE_ACCOUNT,
+    payload: account
+  };
+};

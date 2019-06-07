@@ -21,6 +21,22 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       ById[id] = payload;
       const AllIds = [...state.AllIds, id];
       return { count, ById, AllIds };
+
+    case types.DELETE_ACCOUNT: {
+      // delete all accounts with the accountId of the payload (deleted account)
+      let ById = state.ById;
+      let count = state.count;
+      let AllIds = state.AllIds;
+      Object.keys(ById).forEach(key => {
+        if (ById[key].accountId === payload.id) {
+          delete ById[key];
+          count = count - 1;
+          AllIds = AllIds.filter(id => id !== key);
+        }
+      });
+
+      return { ById, count, AllIds };
+    }
     default:
       return state;
   }
