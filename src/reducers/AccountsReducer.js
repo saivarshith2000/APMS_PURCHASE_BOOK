@@ -43,6 +43,21 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return { ById, AllIds, count };
     }
 
+    case types.DELETE_TRANSACTION: {
+      // find the account with the transaction
+      let account = state.ById[payload.accountId];
+      account = {
+        ...account,
+        balance:
+          payload.type === types.ADD_MONEY
+            ? parseFloat(account.balance) - parseFloat(payload.amount)
+            : parseFloat(account.balance) + parseFloat(payload.amount)
+      };
+
+      let ById = { ...state.ById, [payload.accountId]: account };
+      return { ...state, ById };
+    }
+
     default:
       return state;
   }

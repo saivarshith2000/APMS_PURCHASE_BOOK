@@ -25,6 +25,24 @@ export default (state = {}, { type, payload }) => {
       }
       return state;
     }
+
+    case types.DELETE_TRANSACTION: {
+      if (state == {}) {
+        return;
+      }
+      if (state.id === payload.accountId) {
+        // increase balance if money is added
+        // decrease balance if purchase is added
+
+        return {
+          ...state,
+          balance:
+            payload.type === types.ADD_MONEY
+              ? parseFloat(state.balance) - parseFloat(payload.amount)
+              : parseFloat(state.balance) + parseFloat(payload.amount)
+        };
+      }
+    }
   }
   return state;
 };
