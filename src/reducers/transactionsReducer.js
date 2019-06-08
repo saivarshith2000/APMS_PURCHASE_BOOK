@@ -6,6 +6,8 @@ const INITIAL_STATE = {
   AllIds: []
 };
 
+import { addNewTransaction } from "./transactionHelper";
+
 export default (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
     case types.ADD_NEW_TRANSACTION: {
@@ -18,6 +20,8 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       const count = state.count + 1;
       const id = payload.id;
       let ById = { ...state.ById };
+      addNewTransaction(ById, Object.assign({}, payload));
+
       ById[id] = payload;
       const AllIds = [...state.AllIds, id];
       return { count, ById, AllIds };

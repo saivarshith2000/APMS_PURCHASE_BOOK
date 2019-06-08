@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableNativeFeedback,
   Dimensions,
-  ToastAndroid
+  ToastAndroid,
 } from "react-native";
 import ElevatedView from "react-native-elevated-view";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -49,6 +49,13 @@ class AddMoneyForm extends Component {
   };
 
   validateForm = () => {
+    if (this.props.currentAccount === {} || this.props.currentAccount.id === undefined) {
+      ToastAndroid.show(
+        "Please select an account to make this transaction !!!",
+        ToastAndroid.SHORT
+      );
+      return false
+    }
     let retVal = true;
     if (this.state.amount.length === 0 || isNaN(this.state.amount)) {
       this.setState({ amountError: "Amount must be a number" });
@@ -114,7 +121,8 @@ class AddMoneyForm extends Component {
                     amount,
                     this.props.currentAccount.id,
                     date,
-                    remarks
+                    remarks,
+                    this.props.currentAccount.balance
                   )
                 );
                 ToastAndroid.show(

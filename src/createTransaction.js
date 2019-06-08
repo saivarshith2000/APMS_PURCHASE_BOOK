@@ -27,7 +27,8 @@ export const createMoneyTransaction = (
   amount,
   accountId,
   dateTime,
-  remarks
+  remarks,
+  opening
 ) => {
   return {
     type: types.ADD_MONEY,
@@ -39,7 +40,9 @@ export const createMoneyTransaction = (
     chequeNumber: "",
     voucherNumber: "",
     category: "",
-    title: ""
+    title: "",
+    opening,
+    closing : parseFloat(opening) + parseFloat(amount)
   };
 };
 

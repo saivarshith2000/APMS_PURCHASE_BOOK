@@ -35,11 +35,11 @@ class DateInput extends Component {
 
   onDatePick = date => {
     this.setState({
-      date: date,
+      date : new Date(date),
       dateText: this.extractDate(date),
       isPickerVisible: false
     });
-    this.props.setDate(date);
+    this.props.setDate(new Date(date));
   };
 
   render() {
