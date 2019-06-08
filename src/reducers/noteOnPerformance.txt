@@ -1,0 +1,10 @@
+Note on performance of TransactionHelper
+
+You may notice that everytime the addNewTransaction function is called
+transactionsArray is sorted. This is unavoidable as that array is built from
+an object. I have decided to use an object instead of array as it is more performant query wise.
+But this structure is less performant for insert and modify tasks. But this is a tradeoff that 
+does not cause much issue as the case where an element is inserted anywhere but the last is rare.
+We have to sort the array everytime becase js objects do not retain their key ordering on storage.
+They are stored randomly and different browsers and devices read them differently, so on converting to array
+they must be sorted based on the date

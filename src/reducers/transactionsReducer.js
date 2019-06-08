@@ -20,9 +20,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       const count = state.count + 1;
       const id = payload.id;
       let ById = { ...state.ById };
-      addNewTransaction(ById, Object.assign({}, payload));
-
-      ById[id] = payload;
+      ById = addNewTransaction(ById, Object.assign({}, payload));
       const AllIds = [...state.AllIds, id];
       return { count, ById, AllIds };
     }
