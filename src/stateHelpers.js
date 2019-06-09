@@ -1,3 +1,5 @@
+import * as types from "./types";
+
 // passed to various props
 // this file contains helper functions to extract data from the state
 export const getAccountDetails = state => {
@@ -26,4 +28,16 @@ export const getAllTransactions = state => {
     Object.keys(state.transactions.ById),
     key => state.transactions.ById[key]
   ));
+};
+
+export const getAllVoucherNumbers = state => {
+  // this function returns a list of all voucherNumbers in the state
+  const transactions = getAllTransactions(state);
+  let vouchers = [];
+  transactions.forEach(transaction => {
+    if (transaction.type === types.ADD_PURCHASE) {
+      vouchers.push(transaction.voucherNumber);
+    }
+  });
+  return vouchers;
 };

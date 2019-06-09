@@ -17,17 +17,29 @@ export const addNewTransaction = (ById, newTransaction) => {
 
   // if there are less than two transactions, there is no need to loop
   if (transactionsArray.length === 0) {
-    const retVal = { [newTransaction.id]: newTransaction };
-    return retVal;
+    return { [newTransaction.id]: newTransaction };
   }
   const newTransactionTimestamp = new Date(newTransaction.dateTime).getTime();
+  console.log("new : " + newTransactionTimestamp);
   if (transactionsArray.length === 1) {
+    console.log(
+      "already present : " +
+        new Date(transactionsArray[0].dateTime).getTime() +
+        "\namount : " +
+        transactionsArray[0].amount
+    );
     if (
       new Date(transactionsArray[0].dateTime).getTime() <
       newTransactionTimestamp
     ) {
       // if the newly added transaction is later than the transaction present
+      console.log("I am called");
       transactionsArray.unshift(newTransaction);
+      const retVal = {
+        [transactionsArray[0].id]: transactionsArray[0],
+        [transactionsArray[1].id]: transactionsArray[1]
+      };
+      return retVal;
     } else {
       // if the newTransaction is older than the transaction present, it
       // becomes the first Transaction

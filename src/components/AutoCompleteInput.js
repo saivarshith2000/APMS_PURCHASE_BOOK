@@ -12,7 +12,6 @@ import { connect } from "react-redux";
 class AutoCompleteInput extends React.Component {
   state = {
     text: "",
-
     hideResults: true
   };
   onPress = text => {
@@ -23,10 +22,9 @@ class AutoCompleteInput extends React.Component {
 
   onTextChange = text => {
     this.setState({ text });
+    // if the list is hidden and text is entered, show the list
     if (this.state.hideResults && text.length > 0) {
       this.setState({ hideResults: false });
-    } else {
-      this.setState({ hideResults: true });
     }
     this.props.onTextChange(text);
   };
@@ -50,7 +48,7 @@ class AutoCompleteInput extends React.Component {
           containerStyle={{ borderWidth: 0 }}
           inputContainerStyle={{ borderWidth: 0 }}
           listContainerStyle={styles.listContainerStyle}
-          listStyle={null}
+          listStyle={{ borderWidth: 0 }}
           renderItem={({ item }) => {
             if (
               item.includes(this.state.text.toUpperCase()) &&

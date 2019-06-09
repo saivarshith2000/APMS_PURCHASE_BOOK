@@ -42,7 +42,7 @@ export const createMoneyTransaction = (
     category: "",
     title: "",
     opening,
-    closing : parseFloat(opening) + parseFloat(amount)
+    closing: parseFloat(opening) + parseFloat(amount)
   };
 };
 

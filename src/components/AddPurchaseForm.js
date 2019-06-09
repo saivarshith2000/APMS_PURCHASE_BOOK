@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 
 import { createPurchaseTransaction } from "../createTransaction";
 import { addNewTransaction, addNewCategory } from "../actions";
+import { getAllVoucherNumbers } from "../stateHelpers";
 import MoneyInput from "./MoneyInput";
 import DateInput from "./DateInput";
 import FormTextInput from "./FormTextInput";
@@ -22,7 +23,7 @@ const initialState = {
   title: "",
   amount: "",
   remarks: "",
-  date: new Date(),
+  date: null,
   voucherNumber: "",
   chequeNumber: "",
   category: "",
@@ -92,6 +93,13 @@ class AddPurchaseForm extends Component {
     if (voucherNumber.length === 0) {
       retVal = false;
       this.setState({ voucherNumberError: "Voucher number can't be empty" });
+    } else {
+      this.setState({ voucherNumberError: "" });
+    }
+    if (this.props.vouchers.includes(voucherNumber)) {
+      // if voucher number already exists
+      retVal = false;
+      this.setState({ voucherNumberError: "Voucher number already exists " });
     } else {
       this.setState({ voucherNumberError: "" });
     }
@@ -171,7 +179,7 @@ class AddPurchaseForm extends Component {
                   createPurchaseTransaction(
                     amount,
                     this.props.currentAccount.id,
-                    date,
+                    date ? date : new Date(),
                     remarks,
                     chequeNumber,
                     voucherNumber,
@@ -202,7 +210,8 @@ class AddPurchaseForm extends Component {
 
 const mapStateToProps = state => {
   return {
-    currentAccount: state.currentAccount
+    currentAccount: state.currentAccount,
+    vouchers: getAllVoucherNumbers(state)
   };
 };
 
