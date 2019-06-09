@@ -82,7 +82,7 @@ class PurchaseListItem extends React.Component {
   }
 
   onLongPress = () => {
-    // show a dialog asking if the user wants to delete this account
+    // show a dialog asking if the user wants to delete this transaction
     Alert.alert(
       "Edit/Delete Transaction ?",
       `Editing or Deleting is permanent and can't be undone. Are you sure ?`,
@@ -96,15 +96,6 @@ class PurchaseListItem extends React.Component {
           onPress: () => {
             // delete this account
             this.props.deleteTransaction(this.props.purchase);
-            // immediately persist this state
-            persistor.flush();
-          }
-        },
-        {
-          text: "Edit",
-          onPress: () => {
-            // delete this account
-            console.log("edit");
             // immediately persist this state
             persistor.flush();
           }

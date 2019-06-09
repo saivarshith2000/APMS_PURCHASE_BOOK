@@ -87,6 +87,51 @@ export const addNewTransaction = (ById, newTransaction) => {
 // The functions takes the ById object and converts it to an array and removes the required transaction
 // and then modifies the remaining transactions and returns the modified ById object
 // This procedure might take time, so dispatch a loading action to show the feedback for this time
+export const deleteTransaction = (ById, transactionId) => {
+  let transactionsArray = sortByDates(Object.keys(ById).map(key => ById[key]));
+  let slot = -1;
+  // find the position of the required transaction
+  for (let i = 0; i < transactionsArray.length; i++) {
+    if (transactionsArray[i].id === transactionId) {
+      slot = i;
+      break;
+    }
+  }
+  if (slot === -1) {
+    // exit if the given id is not found.
+    return {};
+  }
+
+  if (slot === 0) {
+    // if the transaction to delete is the oldest
+    transactionsArray.shift();
+    if (transactionsArray.length === 0) {
+      // if there is only one transaction and it is deleted, exit
+      return {};
+    }
+
+    transactionsArray[0].opening = 0;
+    transactionsArray[0].closing = getClosing(transactionsArray[0]);
+    for (let i = 0; i < transactionsArray.length; i++) {
+      transactionsArray[i].opening = transactionsArray[i - 1].closing;
+      transactionsArray[i].closing = getClosing(transactionsArray[i]);
+    }
+    return convertToObject(transactionsArray);
+  }
+  if (slot === transactionsArray.length - 1) {
+    // if the transaction to delete is the latest, just pop it, then return object
+    transactionsArray.pop();
+    return convertToObject(transactionsArray);
+  }
+  // if the transaction to delete is inbetween
+  // opening of [slot+1] = closing of [slot-1]
+  transactionsArray.splice(slot, 1); // remove the transaction from the array
+  for (let i = slot; i < transactionsArray.length; i++) {
+    transactionsArray[i].opening = transactionsArray[i - 1].closing;
+    transactionsArray[i].closing = getClosing(transactionsArray[i]);
+  }
+  return convertToObject(transactionsArray);
+};
 
 // Sorting helper -> sorts by dates in latest last fashion
 const sortByDates = transactionsArray => {

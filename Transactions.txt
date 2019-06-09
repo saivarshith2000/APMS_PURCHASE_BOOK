@@ -1,4 +1,4 @@
-This file contains the object structures for transactions
+reThis file contains the object structures for transactions
 01. Purchase Transactions
   a. title - non empty String (manual)
   b. category - non empty String (manual with autocomplete input)

@@ -42,14 +42,7 @@ class TransactionList extends React.Component {
             keyExtractor={item => item.id}
             renderItem={({ item }) => {
               if (item.type === types.ADD_MONEY) {
-                const { amount, remarks, dateTime } = item;
-                return (
-                  <MoneyListItem
-                    amount={amount}
-                    remarks={remarks}
-                    dateTime={dateTime}
-                  />
-                );
+                return <MoneyListItem money={item} />;
               }
               return <PurchaseListItem purchase={item} />;
             }}

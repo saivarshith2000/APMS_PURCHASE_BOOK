@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   AllIds: []
 };
 
-import { addNewTransaction } from "./transactionHelper";
+import { addNewTransaction, deleteTransaction } from "./transactionHelper";
 
 export default (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
@@ -43,7 +43,7 @@ export default (state = INITIAL_STATE, { type, payload }) => {
     case types.DELETE_TRANSACTION: {
       const AllIds = state.AllIds.filter(id => id !== payload.id);
       let ById = state.ById;
-      delete ById[payload.id];
+      ById = deleteTransaction(ById, payload.id);
       const count = state.count - 1;
       return { count, ById, AllIds };
     }

@@ -1,35 +1,75 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Alert,
+  TouchableNativeFeedback
+} from "react-native";
+import { connect } from "react-redux";
 import ElevatedView from "react-native-elevated-view";
 
 import DateBadge from "./DateBadge";
+import { deleteTransaction } from "../actions";
 
 /*
 Props are amount, dateTime, remarks
 */
 
-const MoneyListItem = props => {
-  return (
-    <ElevatedView
-      style={{
-        ...styles.container,
-        width: (Dimensions.get("window").width * 10) / 11
-      }}
-      elevation={5}
-    >
-      <View style={styles.mainContainer}>
-        <View style={styles.dateStyle}>
-          <DateBadge dateTime={new Date(props.dateTime)} />
-        </View>
-        <View style={styles.TextContainerStyle}>
-          <Text style={styles.amountStyle}>Rs. {props.amount}</Text>
-          <Text style={styles.remarkStyle}>{props.remarks}</Text>
-        </View>
-      </View>
-    </ElevatedView>
-  );
-};
-export default MoneyListItem;
+class MoneyListItem extends React.Component {
+  onLongPress = () => {
+    // show a dialog asking if the user wants to delete this transaction
+    Alert.alert(
+      "Edit/Delete Transaction ?",
+      `Editing or Deleting is permanent and can't be undone. Are you sure ?`,
+      [
+        {
+          text: "cancel",
+          onPress: () => {}
+        },
+        {
+          text: "Delete",
+          onPress: () => {
+            // delete this account
+            this.props.deleteTransaction(this.props.money);
+            // immediately persist this state
+          }
+        }
+      ]
+    );
+  };
+
+  render() {
+    const { amount, remarks, dateTime } = this.props.money;
+
+    return (
+      <ElevatedView
+        style={{
+          ...styles.container,
+          width: (Dimensions.get("window").width * 10) / 11
+        }}
+        elevation={5}
+      >
+        <TouchableNativeFeedback onLongPress={this.onLongPress}>
+          <View style={styles.mainContainer}>
+            <View style={styles.dateStyle}>
+              <DateBadge dateTime={new Date(dateTime)} />
+            </View>
+            <View style={styles.TextContainerStyle}>
+              <Text style={styles.amountStyle}>Rs. {amount}</Text>
+              <Text style={styles.remarkStyle}>{remarks}</Text>
+            </View>
+          </View>
+        </TouchableNativeFeedback>
+      </ElevatedView>
+    );
+  }
+}
+export default connect(
+  null,
+  { deleteTransaction }
+)(MoneyListItem);
 
 const styles = StyleSheet.create({
   container: {
