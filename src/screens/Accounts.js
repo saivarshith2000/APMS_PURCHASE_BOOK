@@ -93,7 +93,14 @@ class Accounts extends React.Component {
             ...styles.formContainer
           }}
         >
-          <View style={{ flexDirection: "row", width: 370 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              width: 370,
+              borderBottomWidth: 1,
+              paddingBottom: 10
+            }}
+          >
             <TextInput
               style={styles.formInputStyle}
               onChangeText={text => this.onChangeText(text)}
@@ -107,13 +114,6 @@ class Accounts extends React.Component {
             </TouchableNativeFeedback>
           </View>
           {this.renderError()}
-          <View style={styles.bannerStyle}>
-            <Text style={styles.bannerTextStyle}>
-              {this.props.currentAccount
-                ? this.props.currentAccount.accountName
-                : "Select Current Account"}
-            </Text>
-          </View>
           <View style={styles.listStyle}>
             <FlatList
               showsVerticalScrollIndicator={false}

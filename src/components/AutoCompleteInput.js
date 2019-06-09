@@ -12,8 +12,7 @@ import { connect } from "react-redux";
 class AutoCompleteInput extends React.Component {
   state = {
     text: "",
-    background: "white",
-    color: "black",
+
     hideResults: true
   };
   onPress = text => {
@@ -42,11 +41,7 @@ class AutoCompleteInput extends React.Component {
           keyExtractor={({ item }) => item}
           renderTextInput={() => (
             <TextInput
-              style={{
-                ...styles.textInputStyle,
-                color: this.state.color,
-                backgroundColor: this.state.background
-              }}
+              style={styles.textInputStyle}
               placeholder={this.props.placeholder}
               onChangeText={text => this.onTextChange(text)}
               value={this.state.text}
@@ -114,7 +109,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     padding: 5,
     borderColor: "#000",
-    borderRadius: 7
+    borderRadius: 7,
+    backgroundColor: "white",
+    color: "black"
   },
   listContainerStyle: {
     borderBottomLeftRadius: 10,
