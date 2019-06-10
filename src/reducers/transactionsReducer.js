@@ -47,6 +47,11 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       const count = state.count - 1;
       return { count, ById, AllIds };
     }
+
+    case types.RESTORE_BACKUP: {
+      return payload.transactions;
+    }
+
     default:
       return state;
   }

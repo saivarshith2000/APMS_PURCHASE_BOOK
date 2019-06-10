@@ -1,6 +1,5 @@
 import XLSX from "xlsx";
 import RNFetchBlob from "rn-fetch-blob";
-import { createMaterialTopTabNavigator } from "react-navigation";
 
 const {
   writeFile,
@@ -102,7 +101,7 @@ export const writeExcelFile = (accountList, transactionList) => {
     const wbout = XLSX.write(wb, { type: "binary", bookType: "xlsx" });
     const fileName =
       DDP + currentAccount.accountName.replace(" ", "_") + ".xlsx";
-    writeFile(fileName, output(wbout), "ascii").then(res => console.log(res));
+    writeFile(fileName, output(wbout), "ascii");
   }
 };
 

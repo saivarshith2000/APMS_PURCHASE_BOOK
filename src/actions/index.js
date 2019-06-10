@@ -81,3 +81,14 @@ export const deleteTransaction = transaction => {
     payload: transaction
   };
 };
+
+export const restoreData = ({ Accounts, transactions, categories }) => {
+  return {
+    type: types.RESTORE_BACKUP,
+    payload: {
+      Accounts,
+      transactions,
+      categories
+    }
+  };
+};

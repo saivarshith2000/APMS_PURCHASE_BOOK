@@ -58,6 +58,10 @@ export default (state = INITIAL_STATE, { type, payload }) => {
       return { ...state, ById };
     }
 
+    case types.RESTORE_BACKUP: {
+      return payload.Accounts;
+    }
+
     default:
       return state;
   }

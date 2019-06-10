@@ -41,3 +41,11 @@ export const getAllVoucherNumbers = state => {
   });
   return vouchers;
 };
+
+export const convertToJson = state => {
+  // this function returns a json string of the data required for a backup
+  // it contains all transactions, accounts, categories
+  const { Accounts, transactions, categories } = state;
+  const toConvert = { Accounts, transactions, categories };
+  return JSON.stringify(toConvert);
+};

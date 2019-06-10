@@ -5,15 +5,21 @@ import {
   StyleSheet,
   Platform,
   PermissionsAndroid,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
+  ToastAndroid
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { connect } from "react-redux";
 
 import * as names from "../names";
 import { writeExcelFile } from "../ExcelHelper";
-import { getAccountDetails, getAllTransactions } from "../stateHelpers";
-import { currentTabChanged } from "../actions";
+import { createBackup, restoreBackup } from "../BackupHelper";
+import {
+  getAccountDetails,
+  getAllTransactions,
+  convertToJson
+} from "../stateHelpers";
+import { currentTabChanged, restoreData } from "../actions";
 
 class Data extends Component {
   static navigationOptions = {
@@ -41,6 +47,10 @@ class Data extends Component {
     this.focusListener.remove();
   }
 
+  showAlert = text => {
+    ToastAndroid.show(text, ToastAndroid.SHORT);
+  };
+
   getPerms = async () => {
     try {
       if (Platform.OS === "android") {
@@ -61,10 +71,36 @@ class Data extends Component {
     }
   };
 
-  onPress = () => {
+  onGenPress = () => {
     if (this.state.hasPermission) {
       const { transactions, accounts } = this.props;
       writeExcelFile(accounts, transactions);
+    } else {
+      this.getPerms();
+    }
+  };
+
+  onBackupPress = () => {
+    if (this.state.hasPermission) {
+      const status = createBackup(this.props.backupData);
+      if (status) {
+        this.showAlert("Backup successful !");
+        return;
+      }
+      this.showAlert("Failed to backup data !!!");
+    } else {
+      this.getPerms();
+    }
+  };
+
+  onRestorePress = () => {
+    if (this.state.hasPermission) {
+      const restoreStatus = restoreBackup();
+      if (restoreStatus === null) {
+        this.showAlert("No restore file found !!!");
+      } else {
+        this.props.backupData(restoreStatus);
+      }
     } else {
       this.getPerms();
     }
@@ -79,8 +115,24 @@ class Data extends Component {
           </Text>
         </View>
         <View style={styles.buttonStyle}>
-          <TouchableNativeFeedback onPress={this.onPress}>
-            <Text style={styles.buttonTextStyle}>Generate Data</Text>
+          <TouchableNativeFeedback onPress={this.onGenPress}>
+            <View>
+              <Text style={styles.buttonTextStyle}>Generate Data</Text>
+            </View>
+          </TouchableNativeFeedback>
+        </View>
+        <View style={styles.buttonStyle}>
+          <TouchableNativeFeedback onPress={this.onBackupPress}>
+            <View>
+              <Text style={styles.buttonTextStyle}>Backup Data</Text>
+            </View>
+          </TouchableNativeFeedback>
+        </View>
+        <View style={styles.buttonStyle}>
+          <TouchableNativeFeedback onPress={this.onRestorePress}>
+            <View>
+              <Text style={styles.buttonTextStyle}>Restore Data</Text>
+            </View>
           </TouchableNativeFeedback>
         </View>
       </View>
@@ -91,13 +143,14 @@ class Data extends Component {
 const mapStateToProps = state => {
   return {
     accounts: getAccountDetails(state),
-    transactions: getAllTransactions(state)
+    transactions: getAllTransactions(state),
+    backupData: convertToJson(state)
   };
 };
 
 export default connect(
   mapStateToProps,
-  { currentTabChanged }
+  { currentTabChanged, restoreData }
 )(Data);
 
 const styles = StyleSheet.create({
