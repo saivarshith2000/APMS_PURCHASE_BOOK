@@ -42,7 +42,7 @@ class AutoCompleteInput extends React.Component {
               style={styles.textInputStyle}
               placeholder={this.props.placeholder}
               onChangeText={text => this.onTextChange(text)}
-              value={this.state.text}
+              value={this.props.text}
             />
           )}
           containerStyle={{ borderWidth: 0 }}

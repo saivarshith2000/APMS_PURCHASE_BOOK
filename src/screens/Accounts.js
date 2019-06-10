@@ -7,6 +7,7 @@ import {
   LayoutAnimation,
   StyleSheet,
   FlatList,
+  Dimensions,
   ToastAndroid
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -86,7 +87,7 @@ class Accounts extends React.Component {
 
   render() {
     return (
-      <View style={{ ...styles.containerStyle }}>
+      <View style={styles.containerStyle}>
         <ElevatedView
           elevation={10}
           style={{
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
-    margin: 10
+    marginHorizontal: 15
   },
   formContainer: {
     flexDirection: "column",

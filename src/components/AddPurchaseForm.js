@@ -145,6 +145,7 @@ class AddPurchaseForm extends Component {
             placeholder="Select Category *"
             onTextChange={this.onCategoryChange}
             error={this.state.categoryError}
+            text={this.state.category}
           />
           <FormTextInput
             placeholder="Voucher Number *"

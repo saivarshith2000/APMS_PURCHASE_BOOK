@@ -20,26 +20,17 @@ export const addNewTransaction = (ById, newTransaction) => {
     return { [newTransaction.id]: newTransaction };
   }
   const newTransactionTimestamp = new Date(newTransaction.dateTime).getTime();
-  console.log("new : " + newTransactionTimestamp);
   if (transactionsArray.length === 1) {
-    console.log(
-      "already present : " +
-        new Date(transactionsArray[0].dateTime).getTime() +
-        "\namount : " +
-        transactionsArray[0].amount
-    );
     if (
       new Date(transactionsArray[0].dateTime).getTime() <
       newTransactionTimestamp
     ) {
       // if the newly added transaction is later than the transaction present
-      console.log("I am called");
       transactionsArray.unshift(newTransaction);
-      const retVal = {
+      return {
         [transactionsArray[0].id]: transactionsArray[0],
         [transactionsArray[1].id]: transactionsArray[1]
       };
-      return retVal;
     } else {
       // if the newTransaction is older than the transaction present, it
       // becomes the first Transaction
@@ -49,11 +40,10 @@ export const addNewTransaction = (ById, newTransaction) => {
       transactionsArray[0].closing = getClosing(transactionsArray[0]);
       transactionsArray.push(newTransaction);
     }
-    const retVal = {
+    return {
       [transactionsArray[0].id]: transactionsArray[0],
       [transactionsArray[1].id]: transactionsArray[1]
     };
-    return retVal;
   }
 
   // push the newTransaction to the transactions array
@@ -68,6 +58,8 @@ export const addNewTransaction = (ById, newTransaction) => {
       break;
     }
   }
+
+  console.log(slot);
 
   // now modify all the transactions with index equal and greater than the slot
   if (slot === 0) {
@@ -124,7 +116,7 @@ export const deleteTransaction = (ById, transactionId) => {
 
     transactionsArray[0].opening = 0;
     transactionsArray[0].closing = getClosing(transactionsArray[0]);
-    for (let i = 0; i < transactionsArray.length; i++) {
+    for (let i = 1; i < transactionsArray.length; i++) {
       transactionsArray[i].opening = transactionsArray[i - 1].closing;
       transactionsArray[i].closing = getClosing(transactionsArray[i]);
     }
