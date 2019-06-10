@@ -11,22 +11,27 @@ const fileName = DDP + "APMS_BACKUP.json";
 const output = str => str.split("").map(x => x.charCodeAt(0));
 
 export const createBackup = data => {
-  // this function recieves a json string and writes it to APMS_BACKUP.json file
-  let retVal = false; // success status of backup
-  writeFile(fileName, output(data), "ascii")
-    .then(res => {
-      retVal = true;
-    })
-    .catch(err => {
-      console.log(error), (retVal = false);
-    });
-  return retVal;
+  // this async function recieves a json string and writes it to APMS_BACKUP.json file
+  return new Promise(function(resolve, reject) {
+    writeFile(fileName, output(data), "ascii")
+      .then(res => {
+        resolve(true);
+      })
+      .catch(err => {
+        reject(false);
+      });
+  });
 };
 
 export const restoreBackup = () => {
-  let retVal = null;
-  readFile(fileName)
-    .then(data => (retVal = JSON.parse(data)))
-    .catch(err => console.log(err));
-  return retVal;
+  return new Promise(function(resolve, reject) {
+    readFile(fileName)
+      .then(data => {
+        console.log(data);
+        resolve(JSON.parse(data));
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
 };

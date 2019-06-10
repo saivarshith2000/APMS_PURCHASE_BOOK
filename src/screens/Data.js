@@ -82,12 +82,11 @@ class Data extends Component {
 
   onBackupPress = () => {
     if (this.state.hasPermission) {
-      const status = createBackup(this.props.backupData);
-      if (status) {
-        this.showAlert("Backup successful !");
-        return;
-      }
-      this.showAlert("Failed to backup data !!!");
+      createBackup(this.props.backupData)
+        .then(() => this.showAlert("Backup Successful !"))
+        .catch(() => {
+          this.showAlert("Backup Failed !!!");
+        });
     } else {
       this.getPerms();
     }
@@ -95,12 +94,16 @@ class Data extends Component {
 
   onRestorePress = () => {
     if (this.state.hasPermission) {
-      const restoreStatus = restoreBackup();
-      if (restoreStatus === null) {
-        this.showAlert("No restore file found !!!");
-      } else {
-        this.props.backupData(restoreStatus);
-      }
+      restoreBackup()
+        .then(data => {
+          if (data === {}) {
+            this.showAlert("No Backups found !!!");
+            return;
+          }
+          this.props.restoreData(data);
+          this.showAlert("Restore Successful !");
+        })
+        .catch(() => this.showAlert("No Backups found !!!"));
     } else {
       this.getPerms();
     }
