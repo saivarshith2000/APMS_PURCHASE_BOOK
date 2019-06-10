@@ -74,7 +74,9 @@ class Data extends Component {
   onGenPress = () => {
     if (this.state.hasPermission) {
       const { transactions, accounts } = this.props;
-      writeExcelFile(accounts, transactions);
+      writeExcelFile(accounts, transactions)
+        .then(() => this.showAlert("Generated Data successfully !"))
+        .catch(() => this.showAlert("Failed to generate data !!!"));
     } else {
       this.getPerms();
     }

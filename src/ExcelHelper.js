@@ -101,7 +101,11 @@ export const writeExcelFile = (accountList, transactionList) => {
     const wbout = XLSX.write(wb, { type: "binary", bookType: "xlsx" });
     const fileName =
       DDP + currentAccount.accountName.replace(" ", "_") + ".xlsx";
-    writeFile(fileName, output(wbout), "ascii");
+    return new Promise(function(resolve, reject) {
+      writeFile(fileName, output(wbout), "ascii")
+        .then(() => resolve(true))
+        .catch(() => reject(false));
+    });
   }
 };
 
