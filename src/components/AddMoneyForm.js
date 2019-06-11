@@ -32,6 +32,7 @@ class AddMoneyForm extends Component {
       amountError: "",
       remarks: "",
       date: null,
+      dateText: "",
       shouldClear: false
     });
   };
@@ -104,7 +105,7 @@ class AddMoneyForm extends Component {
             amount={this.state.amount}
             shouldClear={this.state.shouldClear}
           />
-          <DateInput setDate={this.setDate} />
+          <DateInput setDate={this.setDate} dateText={this.state.dateText} />
           <View>
             <TextInput
               style={styles.textInputStyle}
