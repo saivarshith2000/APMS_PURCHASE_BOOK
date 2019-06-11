@@ -25,8 +25,8 @@ APMS Purchase Book currently supports the following features :
 
 # **Download**
 Latest releases are available [here](https://github.com/saivarshith2000/APMS_PURCHASE_BOOK/releases)
-If you are unsure about your platform, downlaod the  ***app-x86-release.apk*** and install it. The app  
-will be available on play store soon.
+If you are unsure about your platform, download the  ***app-x86-release.apk*** and install it.  
+The app will be available on play store soon.
 
 # **Contact**
 Contact me for any queries at *hosvarshith@gmail.com*
