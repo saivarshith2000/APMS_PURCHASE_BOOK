@@ -35,11 +35,11 @@ class DateInput extends Component {
 
   onDatePick = date => {
     this.setState({
-      date : new Date(date),
+      date: new Date(date),
       dateText: this.extractDate(date),
       isPickerVisible: false
     });
-    this.props.setDate(new Date(date));
+    this.props.setDate(new Date(date), this.extractDate(date));
   };
 
   render() {
@@ -64,7 +64,7 @@ class DateInput extends Component {
             pointerEvents="none"
             placeholder="Select Date"
             keyboardType={"numbers-and-punctuation"}
-            value={this.state.dateText}
+            value={this.props.dateText}
             onFocus={() => this.showPicker()}
           />
         </View>

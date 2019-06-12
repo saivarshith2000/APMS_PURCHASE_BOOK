@@ -24,6 +24,7 @@ const initialState = {
   amount: "",
   remarks: "",
   date: null,
+  dateText: "",
   voucherNumber: "",
   chequeNumber: "",
   category: "",
@@ -49,8 +50,8 @@ class AddPurchaseForm extends Component {
     this.setState({ remarks });
   };
 
-  setDate = date => {
-    this.setState({ date });
+  setDate = (date, dateText) => {
+    this.setState({ date, dateText });
   };
 
   onVoucherChange = voucherNumber => {
@@ -140,7 +141,7 @@ class AddPurchaseForm extends Component {
             error={this.state.amountError}
             amount={this.state.amount}
           />
-          <DateInput setDate={this.setDate} />
+          <DateInput setDate={this.setDate} dateText={this.state.dateText} />
           <AutoCompleteInput
             placeholder="Select Category *"
             onTextChange={this.onCategoryChange}
