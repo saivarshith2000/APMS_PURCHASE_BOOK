@@ -40,14 +40,33 @@ const AppNavigator = createMaterialTopTabNavigator(
 const AppContainer = createAppContainer(AppNavigator);
 
 class App extends React.Component {
+  state = { splashFinished: false };
+
+  componentDidMount() {
+    // show the splash for 2 seconds
+    setTimeout(() => {
+      this.setState({
+        splashFinished: true
+      });
+    }, 3000);
+  }
+
   render() {
     return (
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <View style={{ flex: 1 }}>
-            <Header height={60} />
-            <AppContainer />
-          </View>
+        <PersistGate persistor={persistor}>
+          {bootstrapped => {
+            if (bootstrapped && this.state.splashFinished) {
+              return (
+                <View style={{ flex: 1 }}>
+                  <Header height={60} />
+                  <AppContainer />
+                </View>
+              );
+            } else {
+              return <screens.SplashScreen />;
+            }
+          }}
         </PersistGate>
       </Provider>
     );
