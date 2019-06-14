@@ -58,7 +58,9 @@ class MoneyListItem extends React.Component {
             </View>
             <View style={styles.TextContainerStyle}>
               <Text style={styles.amountStyle}>Rs. {amount}</Text>
-              <Text style={styles.remarkStyle}>{remarks}</Text>
+              <Text style={styles.remarkStyle}>
+                {remarks ? remarks : "No Remarks"}
+              </Text>
             </View>
           </View>
         </TouchableNativeFeedback>

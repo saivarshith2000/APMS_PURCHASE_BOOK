@@ -58,7 +58,7 @@ renderExtraInfo = ({
         </Text>
       </View>
       <View style={styles.RemarksRow}>
-        <Text style={{ fontSize: 18 }}>{remarks}</Text>
+        <Text style={{ fontSize: 18 }}>{remarks ? remarks : "No Remarks"}</Text>
       </View>
     </View>
   );

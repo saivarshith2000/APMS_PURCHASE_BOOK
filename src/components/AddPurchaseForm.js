@@ -142,6 +142,7 @@ class AddPurchaseForm extends Component {
             amount={this.state.amount}
           />
           <DateInput setDate={this.setDate} dateText={this.state.dateText} />
+
           <AutoCompleteInput
             placeholder="Select Category *"
             onTextChange={this.onCategoryChange}

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { addNewTransaction } from "../actions";
 import AddMoneyForm from "../components/AddMoneyForm";

@@ -11,6 +11,7 @@ import {
 import ElevatedView from "react-native-elevated-view";
 import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { createMoneyTransaction } from "../createTransaction";
 import { addNewTransaction } from "../actions";
@@ -23,6 +24,7 @@ class AddMoneyForm extends Component {
     amountError: "",
     remarks: "",
     date: null,
+    dateText: "",
     shouldClear: false
   };
 
@@ -45,8 +47,8 @@ class AddMoneyForm extends Component {
     this.setState({ remarks });
   };
 
-  setDate = date => {
-    this.setState({ date });
+  setDate = (date, dateText) => {
+    this.setState({ date, dateText });
   };
 
   validateForm = () => {
@@ -83,64 +85,66 @@ class AddMoneyForm extends Component {
             width: (width * 5) / 6
           }}
         >
-          <View
-            style={{
-              margin: 10,
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "row"
-            }}
-          >
-            <Text style={styles.formTitleStyle}>Add Money</Text>
-            <Icon
-              name="ios-refresh"
-              size={24}
-              style={{ marginLeft: "auto", marginRight: 10 }}
-              onPress={this.resetForm}
-            />
-          </View>
-          <MoneyInput
-            setAmount={this.setAmount}
-            error={this.state.amountError}
-            amount={this.state.amount}
-            shouldClear={this.state.shouldClear}
-          />
-          <DateInput setDate={this.setDate} dateText={this.state.dateText} />
-          <View>
-            <TextInput
-              style={styles.textInputStyle}
-              placeholder="Any Remarks ?"
-              onChangeText={remarks => this.onRemarksChange(remarks)}
-              value={this.state.remarks}
+          <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
+            <View
+              style={{
+                margin: 10,
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "row"
+              }}
+            >
+              <Text style={styles.formTitleStyle}>Add Money</Text>
+              <Icon
+                name="ios-refresh"
+                size={24}
+                style={{ marginLeft: "auto", marginRight: 10 }}
+                onPress={this.resetForm}
+              />
+            </View>
+            <MoneyInput
+              setAmount={this.setAmount}
+              error={this.state.amountError}
+              amount={this.state.amount}
               shouldClear={this.state.shouldClear}
             />
-          </View>
-          <TouchableNativeFeedback
-            onPress={() => {
-              if (this.validateForm()) {
-                // add to db if the form is verified
-                const { amount, remarks, date } = this.state;
-                this.props.addNewTransaction(
-                  createMoneyTransaction(
-                    amount,
-                    this.props.currentAccount.id,
-                    date ? date : new Date(),
-                    remarks,
-                    this.props.currentAccount.balance
-                  )
-                );
-                ToastAndroid.show(
-                  "Money added successfully !",
-                  ToastAndroid.SHORT
-                );
-                this.resetForm();
-              }
-            }}
-          >
-            <View style={styles.buttonStyle}>
-              <Text style={styles.buttonTextStyle}>Add</Text>
+            <DateInput setDate={this.setDate} dateText={this.state.dateText} />
+            <View>
+              <TextInput
+                style={styles.textInputStyle}
+                placeholder="Any Remarks ?"
+                onChangeText={remarks => this.onRemarksChange(remarks)}
+                value={this.state.remarks}
+                shouldClear={this.state.shouldClear}
+              />
             </View>
-          </TouchableNativeFeedback>
+            <TouchableNativeFeedback
+              onPress={() => {
+                if (this.validateForm()) {
+                  // add to db if the form is verified
+                  const { amount, remarks, date } = this.state;
+                  this.props.addNewTransaction(
+                    createMoneyTransaction(
+                      amount,
+                      this.props.currentAccount.id,
+                      date ? date : new Date(),
+                      remarks,
+                      this.props.currentAccount.balance
+                    )
+                  );
+                  ToastAndroid.show(
+                    "Money added successfully !",
+                    ToastAndroid.SHORT
+                  );
+                  this.resetForm();
+                }
+              }}
+            >
+              <View style={styles.buttonStyle}>
+                <Text style={styles.buttonTextStyle}>Add</Text>
+              </View>
+            </TouchableNativeFeedback>
+          </KeyboardAwareScrollView>
         </ElevatedView>
       </View>
     );

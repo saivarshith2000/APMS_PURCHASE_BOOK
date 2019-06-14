@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
-    marginHorizontal: 15
+    margin: 20
   },
   formContainer: {
     flexDirection: "column",
