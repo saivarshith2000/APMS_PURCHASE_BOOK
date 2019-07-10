@@ -48,7 +48,8 @@ class MoneyInput extends Component {
   }
 
   onAmountChange = amount => {
-    if (amount.search(/^[0-9]\d{0,9}(\.\d{1,3})?%?$/)) {
+    // !amount.match(/^\d+\.\d+$/)  - regex way
+    if (isNaN(amount)) {
       this.setState({
         hasError: true,
         amount,
